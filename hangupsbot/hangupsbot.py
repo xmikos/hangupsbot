@@ -9,7 +9,7 @@ import hangupsbot.config
 import hangupsbot.handlers
 
 
-__version__ = '1.1'
+__version__ = '1.2'
 LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 
