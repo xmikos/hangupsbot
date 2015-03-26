@@ -1,51 +1,10 @@
-import sys, json, random, asyncio
+import json, random, asyncio
 
 import hangups
 from hangups.ui.utils import get_conv_name
 
 from hangupsbot.utils import text_to_segments
-
-
-class CommandDispatcher(object):
-    """Register commands and run them"""
-    def __init__(self):
-        self.commands = {}
-        self.unknown_command = None
-
-    @asyncio.coroutine
-    def run(self, bot, event, *args, **kwds):
-        """Run command"""
-        try:
-            func = self.commands[args[0]]
-        except KeyError:
-            if self.unknown_command:
-                func = self.unknown_command
-            else:
-                raise
-
-        # Automatically wrap command function in coroutine
-        # (so we don't have to write @asyncio.coroutine decorator before every command function)
-        func = asyncio.coroutine(func)
-
-        args = list(args[1:])
-
-        try:
-            yield from func(bot, event, *args, **kwds)
-        except Exception as e:
-            print(e)
-
-    def register(self, func):
-        """Decorator for registering command"""
-        self.commands[func.__name__] = func
-        return func
-
-    def register_unknown(self, func):
-        """Decorator for registering unknown command"""
-        self.unknown_command = func
-        return func
-
-# CommandDispatcher singleton
-command = CommandDispatcher()
+from hangupsbot.commands import command
 
 
 @command.register_unknown
@@ -114,7 +73,7 @@ def user(bot, event, username, *args):
                                            is_bold=True),
                 hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK)]
     for u in sorted(bot._user_list._user_dict.values(), key=lambda x: x.full_name.split()[-1]):
-        if not username_lower in u.full_name.lower():
+        if username_lower not in u.full_name.lower():
             continue
 
         link = 'https://plus.google.com/u/0/{}/about'.format(u.id_.chat_id)
@@ -180,6 +139,7 @@ def easteregg(bot, event, easteregg, eggcount=1, period=0.5, *args):
         yield from bot._client.sendeasteregg(event.conv_id, easteregg)
         if int(eggcount) > 1:
             yield from asyncio.sleep(float(period) + random.uniform(-0.1, 0.1))
+
 
 @command.register
 def spoof(bot, event, *args):
