@@ -1,7 +1,7 @@
 import os, glob, asyncio
 
 
-class CommandDispatcher(object):
+class CommandDispatcher:
     """Register commands and run them"""
     def __init__(self):
         self.commands = {}

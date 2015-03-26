@@ -13,7 +13,7 @@ __version__ = '1.2'
 LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 
-class HangupsBot(object):
+class HangupsBot:
     """Hangouts bot listening on all conversations"""
     def __init__(self, cookies_path, config_path, max_retries=5):
         self._client = None
