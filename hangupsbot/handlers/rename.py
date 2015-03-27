@@ -12,6 +12,6 @@ def handle_rename(bot, event):
 
     # Only print renames for now...
     if event.conv_event.new_name == '':
-        print('{} cleared the conversation name'.format(event.user.first_name))
+        print(_('{} cleared the conversation name').format(event.user.first_name))
     else:
-        print('{} renamed the conversation to {}'.format(event.user.first_name, event.conv_event.new_name))
+        print(_('{} renamed the conversation to {}').format(event.user.first_name, event.conv_event.new_name))

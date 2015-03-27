@@ -26,7 +26,7 @@ def handle_command(bot, event):
     # Test if command length is sufficient
     if len(line_args) < 2:
         bot.send_message(event.conv,
-                         '{}: Co si bude pán ráčit?'.format(event.user.full_name))
+                         _('{}: How may I serve you?').format(event.user.full_name))
         raise StopEventHandling
 
     # Test if user has permissions for running command
@@ -35,7 +35,7 @@ def handle_command(bot, event):
         admins_list = bot.get_config_suboption(event.conv_id, 'admins')
         if event.user_id.chat_id not in admins_list:
             bot.send_message(event.conv,
-                             '{}: I\'m sorry, Dave. I\'m afraid I can\'t do that.'.format(event.user.full_name))
+                             _('{}: I\'m sorry, Dave. I\'m afraid I can\'t do that.').format(event.user.full_name))
             raise StopEventHandling
 
     # Run command

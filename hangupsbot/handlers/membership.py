@@ -21,19 +21,17 @@ def handle_membership_change(bot, event):
         admins_list = bot.get_config_suboption(event.conv_id, 'admins')
         if event.user_id.chat_id in admins_list:
             bot.send_message(event.conv,
-                             '{}: Ahoj, {} mezi nás!'.format(names,
-                                                             'vítejte' if len(event_users) > 1 else 'vítej'))
+                             _('{}: Welcome!').format(names))
         else:
-            segments = [hangups.ChatMessageSegment('!!! POZOR !!!', is_bold=True),
+            segments = [hangups.ChatMessageSegment(_('!!! WARNING !!!'), is_bold=True),
                         hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK),
-                        hangups.ChatMessageSegment('{} neoprávněně přidal do tohoto Hangoutu uživatele {}!'.format(
+                        hangups.ChatMessageSegment(_('{} invited user {} without authorization!').format(
                                                    event.user.full_name, names)),
                         hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK),
                         hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK),
-                        hangups.ChatMessageSegment('{}: Opusťte prosím urychleně tento Hangout!'.format(names))]
+                        hangups.ChatMessageSegment(_('{}: Please leave this conversation immediately!').format(names))]
             bot.send_message_segments(event.conv, segments)
     # LEAVE
     else:
         bot.send_message(event.conv,
-                         '{} nám {} košem :-( Řekněte pá pá!'.format(names,
-                                                                     'dali' if len(event_users) > 1 else 'dal'))
+                         _('{} has jilted us :-( Hasta la vista, baby!').format(names))

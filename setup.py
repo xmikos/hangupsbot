@@ -10,7 +10,8 @@ setup(name='HangupsBot',
       author_email='m.krenek@gmail.com',
       url='https://github.com/xmikos/hangupsbot',
       license="GNU GPLv3",
-      packages=['hangupsbot'],
-      package_data={"hangupsbot": ["config.json"]},
-      scripts=["scripts/hangupsbot"],
-      requires=["hangups", "appdirs", "asyncio"])
+      packages=['hangupsbot', 'hangupsbot.handlers', 'hangupsbot.commands'],
+      package_data={'hangupsbot': ['config.json',
+                                   'locale/*/*/*.mo']},
+      scripts=['scripts/hangupsbot'],
+      requires=['hangups', 'appdirs', 'asyncio'])

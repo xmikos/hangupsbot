@@ -11,14 +11,15 @@ from hangupsbot.commands import command
 def unknown_command(bot, event, *args):
     """Unknown command handler"""
     bot.send_message(event.conv,
-                     '{}: Ja ne znaju, ne ponimaju!'.format(event.user.full_name))
+                     _('{}: Unknown command!').format(event.user.full_name))
 
 
 @command.register
 def help(bot, event, cmd=None, *args):
-    """Help me, Obi-Wan Kenobi. You're my only hope."""
+    """Help me, Obi-Wan Kenobi. You're my only hope.
+       Usage: /bot help [command]"""
     if not cmd:
-        segments = [hangups.ChatMessageSegment('Podporované příkazy:', is_bold=True),
+        segments = [hangups.ChatMessageSegment(_('Supported commands:'), is_bold=True),
                     hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK),
                     hangups.ChatMessageSegment(', '.join(sorted(command.commands.keys())))]
     else:
@@ -26,7 +27,7 @@ def help(bot, event, cmd=None, *args):
             command_fn = command.commands[cmd]
             segments = [hangups.ChatMessageSegment('{}:'.format(cmd), is_bold=True),
                         hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK)]
-            segments.extend(text_to_segments(command_fn.__doc__))
+            segments.extend(text_to_segments(_(command_fn.__doc__)))
         except KeyError:
             yield from command.unknown_command(bot, event)
             return
@@ -36,20 +37,21 @@ def help(bot, event, cmd=None, *args):
 
 @command.register
 def ping(bot, event, *args):
-    """Zahrajem si ping pong!"""
+    """Let's play ping pong!"""
     bot.send_message(event.conv, 'pong')
 
 
 @command.register
 def echo(bot, event, *args):
-    """Pojďme se opičit!"""
+    """Monkey see, monkey do!
+       Usage: /bot echo text"""
     bot.send_message(event.conv, '{}'.format(' '.join(args)))
 
 
 @command.register
 def users(bot, event, *args):
-    """Výpis všech uživatelů v aktuálním Hangoutu (včetně G+ účtů a emailů)"""
-    segments = [hangups.ChatMessageSegment('Seznam uživatelů (celkem {}):'.format(len(event.conv.users)),
+    """List all participants in current conversation (including G+ accounts and emails)"""
+    segments = [hangups.ChatMessageSegment(_('List of participants ({} total):').format(len(event.conv.users)),
                                            is_bold=True),
                 hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK)]
     for u in sorted(event.conv.users, key=lambda x: x.full_name.split()[-1]):
@@ -67,9 +69,10 @@ def users(bot, event, *args):
 
 @command.register
 def user(bot, event, username, *args):
-    """Vyhledá uživatele podle jména"""
+    """Find user by name
+       Usage: /bot user user_name"""
     username_lower = username.strip().lower()
-    segments = [hangups.ChatMessageSegment('Výsledky hledání uživatelů jménem "{}":'.format(username),
+    segments = [hangups.ChatMessageSegment(_('Search results for user name "{}":').format(username),
                                            is_bold=True),
                 hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK)]
     for u in sorted(bot._user_list._user_dict.values(), key=lambda x: x.full_name.split()[-1]):
@@ -91,9 +94,9 @@ def user(bot, event, username, *args):
 
 @command.register
 def hangouts(bot, event, *args):
-    """Výpis všech aktivních Hangoutů, v kterých řádí bot
-        Vysvětlivky: c ... commands, f ... forwarding, a ... autoreplies"""
-    segments = [hangups.ChatMessageSegment('Seznam aktivních Hangoutů:', is_bold=True),
+    """List all conversations where bot is wreaking havoc
+       Legend: c ... commands, f ... forwarding, a ... autoreplies"""
+    segments = [hangups.ChatMessageSegment(_('Active conversations:'), is_bold=True),
                 hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK)]
     for c in bot.list_conversations():
         s = '{} [c: {:d}, f: {:d}, a: {:d}]'.format(get_conv_name(c, truncate=True),
@@ -108,13 +111,15 @@ def hangouts(bot, event, *args):
 
 @command.register
 def rename(bot, event, *args):
-    """Přejmenuje aktuální Hangout"""
+    """Rename current conversation
+       Usage: /bot rename new_conversation_name"""
     yield from bot._client.setchatname(event.conv_id, ' '.join(args))
 
 
 @command.register
 def leave(bot, event, conversation=None, *args):
-    """Opustí aktuální nebo jiný specifikovaný Hangout"""
+    """Leave current (or specified) conversation
+       Usage: /bot leave [conversation_name]"""
     convs = []
     if not conversation:
         convs.append(event.conv)
@@ -126,15 +131,16 @@ def leave(bot, event, conversation=None, *args):
 
     for c in convs:
         yield from c.send_message([
-            hangups.ChatMessageSegment('I\'ll be back!')
+            hangups.ChatMessageSegment(_('I\'ll be back!'))
         ])
         yield from bot._conv_list.leave_conversation(c.id_)
 
 
 @command.register
 def easteregg(bot, event, easteregg, eggcount=1, period=0.5, *args):
-    """Spustí combo velikonočních vajíček (parametry: vajíčko [počet] [perioda])
-       Podporovaná velikonoční vajíčka: ponies, pitchforks, bikeshed, shydino"""
+    """Annoy people with easter egg combo!
+       Usage: /bot easteregg easter_egg_type [count] [period]
+       Supported easter eggs: ponies, pitchforks, bikeshed, shydino"""
     for i in range(int(eggcount)):
         yield from bot._client.sendeasteregg(event.conv_id, easteregg)
         if int(eggcount) > 1:
@@ -143,35 +149,36 @@ def easteregg(bot, event, easteregg, eggcount=1, period=0.5, *args):
 
 @command.register
 def spoof(bot, event, *args):
-    """Spoofne instanci IngressBota na určené koordináty"""
-    segments = [hangups.ChatMessageSegment('!!! POZOR !!!', is_bold=True),
+    """Spoof IngressBot on specified GPS coordinates
+       Usage: /bot spoof latitude,longitude [hack|fire|deploy|mod] [level] [count]"""
+    segments = [hangups.ChatMessageSegment(_('!!! WARNING !!!'), is_bold=True),
                 hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK)]
-    segments.append(hangups.ChatMessageSegment('Uživatel {} ('.format(event.user.full_name)))
+    segments.append(hangups.ChatMessageSegment(_('Agent {} (').format(event.user.full_name)))
     link = 'https://plus.google.com/u/0/{}/about'.format(event.user.id_.chat_id)
     segments.append(hangups.ChatMessageSegment(link, hangups.SegmentType.LINK,
                                                link_target=link))
-    segments.append(hangups.ChatMessageSegment(') byl právě reportován Nianticu za pokus o spoofing!'))
+    segments.append(hangups.ChatMessageSegment(_(') has been reported to Niantic for attempted spoofing!')))
     bot.send_message_segments(event.conv, segments)
 
 
 @command.register
 def reload(bot, event, *args):
-    """Znovu načte konfiguraci bota ze souboru"""
+    """Reload bot configuration from file"""
     bot.config.load()
 
 
 @command.register
 def quit(bot, event, *args):
-    """Nech bota žít!"""
-    print('HangupsBot killed by user {} from conversation {}'.format(event.user.full_name,
-                                                                     get_conv_name(event.conv, truncate=True)))
+    """Oh my God! They killed Kenny! You bastards!"""
+    print(_('HangupsBot killed by user {} from conversation {}').format(event.user.full_name,
+                                                                        get_conv_name(event.conv, truncate=True)))
     yield from bot._client.disconnect()
 
 
 @command.register
 def config(bot, event, cmd=None, *args):
-    """Zobrazí nebo upraví konfiguraci bota
-        Parametry: /bot config [get|set] [key] [subkey] [...] [value]"""
+    """Show or change bot configuration
+       Usage: /bot config [get|set] [key] [subkey] [...] [value]"""
 
     if cmd == 'get' or cmd is None:
         config_args = list(args)
@@ -190,7 +197,7 @@ def config(bot, event, cmd=None, *args):
         return
 
     if value is None:
-        value = 'Parametr neexistuje!'
+        value = _('Key not found!')
 
     config_path = ' '.join(k for k in ['config'] + config_args)
     segments = [hangups.ChatMessageSegment('{}:'.format(config_path),

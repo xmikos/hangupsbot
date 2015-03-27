@@ -22,12 +22,12 @@ class ConversationEvent:
 
     def print_debug(self):
         """Print informations about conversation event"""
-        print('Conversation ID: {}'.format(self.conv_id))
-        print('Conversation name: {}'.format(get_conv_name(self.conv, truncate=True)))
-        print('User ID: {}'.format(self.user_id))
-        print('User name: {}'.format(self.user.full_name))
-        print('Timestamp: {}'.format(self.timestamp.astimezone(tz=None).strftime('%Y-%m-%d %H:%M:%S')))
-        print('Text: {}'.format(self.text))
+        print(_('Conversation ID: {}').format(self.conv_id))
+        print(_('Conversation name: {}').format(get_conv_name(self.conv, truncate=True)))
+        print(_('User ID: {}').format(self.user_id))
+        print(_('User name: {}').format(self.user.full_name))
+        print(_('Timestamp: {}').format(self.timestamp.astimezone(tz=None).strftime('%Y-%m-%d %H:%M:%S')))
+        print(_('Text: {}').format(self.text))
         print()
 
 

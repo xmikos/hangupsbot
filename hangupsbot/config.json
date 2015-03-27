@@ -1,7 +1,8 @@
 {
   "admins": ["USER1_ID", "USER2_ID"],
   "autoreplies": [
-    [["hi", "hello"], "Hello world!"]
+    [["hi", "hello"], "Hello world!"],
+    [["bot"], "At your service!"]
   ],
   "autoreplies_enabled": true,
   "commands_admin": ["rename", "leave", "easteregg", "user", "users", "hangouts", "reload", "quit", "config"],
