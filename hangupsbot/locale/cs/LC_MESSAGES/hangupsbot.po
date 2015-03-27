@@ -4,20 +4,140 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2015-03-27 01:34+CET\n"
-"PO-Revision-Date: 2015-03-27 11:28+0100\n"
+"POT-Creation-Date: 2015-03-27 15:00+CET\n"
+"PO-Revision-Date: 2015-03-27 15:37+0100\n"
 "Last-Translator: Michal Krenek (Mikos) <m.krenek@gmail.com>\n"
 "Language-Team: Czech <>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: ENCODING\n"
 "Generated-By: pygettext.py 1.5\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
 
+#: /usr/lib/python3.4/site-packages/argparse.py:313
+msgid "usage: "
+msgstr "použití: "
+
+#: /usr/lib/python3.4/site-packages/argparse.py:821
+msgid ".__call__() not defined"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1349
+msgid "cannot merge actions - two groups are named %r"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1387
+msgid "'required' is an invalid argument for positionals"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1407
+msgid "invalid option string %r: must start with a character %r"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1428
+msgid "dest= is required for options like %r"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1445
+msgid "invalid conflict_resolution value: %r"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1463
+msgid "conflicting option string(s): %s"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1526
+msgid "mutually exclusive arguments must be optional"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1596
+msgid "positional arguments"
+msgstr "povinné argumenty"
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1597
+msgid "optional arguments"
+msgstr "volitelné argumenty"
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1615
+msgid "show this help message and exit"
+msgstr "vypíše tuto nápovědu a skončí"
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1621
+msgid "show program's version number and exit"
+msgstr "vypíše verzi programu a skončí"
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1653
+msgid "cannot have multiple subparser arguments"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1705
+msgid "unrecognized arguments: %s"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1802
+msgid "not allowed with argument %s"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1848
+#: /usr/lib/python3.4/site-packages/argparse.py:1862
+msgid "ignored explicit argument %r"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1952
+msgid "too few arguments"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1959
+msgid "argument %s is required"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:1973
+msgid "one of the arguments %s is required"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2019
+msgid "expected one argument"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2020
+msgid "expected at most one argument"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2021
+msgid "expected at least one argument"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2023
+msgid "expected %s argument(s)"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2080
+msgid "ambiguous option: %s could match %s"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2142
+msgid "unexpected option string: %s"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2243
+msgid "%r is not callable"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2259
+msgid "invalid %s value: %r"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2269
+msgid "invalid choice: %r (choose from %s)"
+msgstr ""
+
+#: /usr/lib/python3.4/site-packages/argparse.py:2362
+msgid "%s: error: %s\n"
+msgstr "%s: chyba: %s\n"
+
 #: hangupsbot/commands/default.py:12
-#, docstring
 msgid "Unknown command handler"
 msgstr "Neznámý příkaz"
 
@@ -26,7 +146,6 @@ msgid "{}: Unknown command!"
 msgstr "{}: Ja ne znaju, ne ponimaju!"
 
 #: hangupsbot/commands/default.py:19
-#, docstring
 msgid ""
 "Help me, Obi-Wan Kenobi. You're my only hope.\n"
 "       Usage: /bot help [command]"
@@ -39,12 +158,10 @@ msgid "Supported commands:"
 msgstr "Podporované příkazy:"
 
 #: hangupsbot/commands/default.py:40
-#, docstring
 msgid "Let's play ping pong!"
 msgstr "Zahrajem si ping pong!"
 
 #: hangupsbot/commands/default.py:46
-#, docstring
 msgid ""
 "Monkey see, monkey do!\n"
 "       Usage: /bot echo text"
@@ -53,7 +170,6 @@ msgstr ""
 "       Použití: /bot echo text"
 
 #: hangupsbot/commands/default.py:53
-#, docstring
 msgid ""
 "List all participants in current conversation (including G+ accounts and "
 "emails)"
@@ -64,7 +180,6 @@ msgid "List of participants ({} total):"
 msgstr "Seznam uživatelů (celkem {}):"
 
 #: hangupsbot/commands/default.py:72
-#, docstring
 msgid ""
 "Find user by name\n"
 "       Usage: /bot user user_name"
@@ -77,7 +192,6 @@ msgid "Search results for user name \"{}\":"
 msgstr "Výsledky hledání uživatelů jménem \"{}\":"
 
 #: hangupsbot/commands/default.py:97
-#, docstring
 msgid ""
 "List all conversations where bot is wreaking havoc\n"
 "       Legend: c ... commands, f ... forwarding, a ... autoreplies"
@@ -90,7 +204,6 @@ msgid "Active conversations:"
 msgstr "Seznam aktivních Hangoutů:"
 
 #: hangupsbot/commands/default.py:114
-#, docstring
 msgid ""
 "Rename current conversation\n"
 "       Usage: /bot rename new_conversation_name"
@@ -99,7 +212,6 @@ msgstr ""
 "       Použití: /bot rename new_conversation_name"
 
 #: hangupsbot/commands/default.py:121
-#, docstring
 msgid ""
 "Leave current (or specified) conversation\n"
 "       Usage: /bot leave [conversation_name]"
@@ -112,7 +224,6 @@ msgid "I'll be back!"
 msgstr "I'll be back!"
 
 #: hangupsbot/commands/default.py:141
-#, docstring
 msgid ""
 "Annoy people with easter egg combo!\n"
 "       Usage: /bot easteregg easter_egg_type [count] [period]\n"
@@ -123,7 +234,6 @@ msgstr ""
 "       Podporovaná velikonoční vajíčka: ponies, pitchforks, bikeshed, shydino"
 
 #: hangupsbot/commands/default.py:152
-#, docstring
 msgid ""
 "Spoof IngressBot on specified GPS coordinates\n"
 "       Usage: /bot spoof latitude,longitude [hack|fire|deploy|mod] [level] "
@@ -146,12 +256,10 @@ msgid ") has been reported to Niantic for attempted spoofing!"
 msgstr ") byl právě reportován Nianticu za pokus o spoofing!"
 
 #: hangupsbot/commands/default.py:166
-#, docstring
 msgid "Reload bot configuration from file"
 msgstr "Znovu načte konfiguraci bota ze souboru"
 
 #: hangupsbot/commands/default.py:172
-#, docstring
 msgid "Oh my God! They killed Kenny! You bastards!"
 msgstr "Nech bota žít!"
 
@@ -160,7 +268,6 @@ msgid "HangupsBot killed by user {} from conversation {}"
 msgstr "HangupsBot byl ukončen uživatelem {} z konverzace {}"
 
 #: hangupsbot/commands/default.py:180
-#, docstring
 msgid ""
 "Show or change bot configuration\n"
 "       Usage: /bot config [get|set] [key] [subkey] [...] [value]"

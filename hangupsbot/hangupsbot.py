@@ -1,8 +1,15 @@
 #!/usr/bin/env python
-import os, sys, argparse, logging, shutil, asyncio, time, signal
 
-import gettext
-gettext.install('hangupsbot', localedir=os.path.join(os.path.dirname(__file__), 'locale'))
+# Install modern gettext class-based API in Python's builtins namespace first
+import os, gettext
+localedir = os.path.join(os.path.dirname(__file__), 'locale')
+gettext.install('hangupsbot', localedir=localedir)
+
+# For argparse localization to work, we need also to setup old GNU gettext API
+gettext.bindtextdomain('hangupsbot', localedir=localedir)
+gettext.textdomain('hangupsbot')
+
+import sys, argparse, logging, shutil, asyncio, time, signal
 
 import appdirs
 import hangups
