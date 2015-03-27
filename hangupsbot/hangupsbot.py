@@ -16,10 +16,10 @@ import hangups
 from hangups.ui.utils import get_conv_name
 
 import hangupsbot.config
+from hangupsbot.version import __version__
 from hangupsbot.handlers import handler
 
 
-__version__ = '1.2'
 LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 
@@ -172,6 +172,8 @@ def main():
                         help=_('cookie storage path'))
     parser.add_argument('--config', default=default_config_path,
                         help=_('config storage path'))
+    parser.add_argument('--version', action='version', version='%(prog)s {}'.format(__version__),
+                        help=_('show program\'s version number and exit'))
     args = parser.parse_args()
 
     # Create all necessary directories.

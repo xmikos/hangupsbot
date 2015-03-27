@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
-from hangupsbot.hangupsbot import __version__
+from hangupsbot.version import __version__
 
 setup(name='HangupsBot',
       version=__version__,
