@@ -30,7 +30,7 @@ def handle_command(bot, event):
         raise StopEventHandling
 
     # Test if user has permissions for running command
-    commands_admin_list = bot.get_config_suboption(event.conv_id, 'commands_admin')
+    commands_admin_list = command.get_admin_commands(bot, event.conv_id)
     if commands_admin_list and line_args[1].lower() in commands_admin_list:
         admins_list = bot.get_config_suboption(event.conv_id, 'admins')
         if event.user_id.chat_id not in admins_list:

@@ -5,7 +5,7 @@
     [["bot"], "At your service!"]
   ],
   "autoreplies_enabled": true,
-  "commands_admin": ["rename", "leave", "easteregg", "user", "users", "hangouts", "reload", "quit", "config"],
+  "commands_admin": ["quit", "config"],
   "commands_enabled": true,
   "forwarding_enabled": true,
   "conversations": {

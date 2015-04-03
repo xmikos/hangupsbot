@@ -5,7 +5,13 @@ class CommandDispatcher:
     """Register commands and run them"""
     def __init__(self):
         self.commands = {}
+        self.commands_admin = []
         self.unknown_command = None
+
+    def get_admin_commands(self, bot, conv_id):
+        """Get list of admin-only commands (set by plugins or in config.json)"""
+        commands_admin = bot.get_config_suboption(conv_id, 'commands_admin') or []
+        return list(set(commands_admin + self.commands_admin))
 
     @asyncio.coroutine
     def run(self, bot, event, *args, **kwds):
@@ -25,19 +31,21 @@ class CommandDispatcher:
         except Exception as e:
             print(e)
 
-    def register(self, func):
+    def register(self, admin=False):
         """Decorator for registering command"""
-        # Automatically wrap command function in coroutine
-        func = asyncio.coroutine(func)
-
-        self.commands[func.__name__] = func
-        return func
+        def wrapper(func):
+            # Automatically wrap command function in coroutine
+            func = asyncio.coroutine(func)
+            self.commands[func.__name__] = func
+            if admin:
+                self.commands_admin.append(func.__name__)
+            return func
+        return wrapper
 
     def register_unknown(self, func):
         """Decorator for registering unknown command"""
         # Automatically wrap command function in coroutine
         func = asyncio.coroutine(func)
-
         self.unknown_command = func
         return func
 

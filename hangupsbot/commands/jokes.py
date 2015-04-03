@@ -15,7 +15,7 @@ def easteregg_combo(client, conv_id, easteregg, eggcount=1, period=0.5):
             yield from asyncio.sleep(period + random.uniform(-0.1, 0.1))
 
 
-@command.register
+@command.register(admin=True)
 def easteregg(bot, event, easteregg, eggcount=1, period=0.5, conv_name='', *args):
     """Annoy people with easter egg combo in current (or specified) conversation!
        Usage: /bot easteregg easter_egg_type [count] [period] [conv_name]
@@ -28,7 +28,7 @@ def easteregg(bot, event, easteregg, eggcount=1, period=0.5, conv_name='', *args
         ).add_done_callback(lambda future: future.result())
 
 
-@command.register
+@command.register()
 def spoof(bot, event, *args):
     """Spoof IngressBot on specified GPS coordinates
        Usage: /bot spoof latitude,longitude [hack|fire|deploy|mod] [level] [count]"""

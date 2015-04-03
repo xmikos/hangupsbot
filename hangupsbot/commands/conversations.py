@@ -14,7 +14,7 @@ def get_unique_users(bot, user_list):
     return unique_users
 
 
-@command.register
+@command.register(admin=True)
 def conv_create(bot, event, conv_name, *args):
     """Create new conversation and invite users to it
        Usage: /bot conv_create conversation_name [user_name_1] [user_name_2] [...]"""
@@ -32,7 +32,7 @@ def conv_create(bot, event, conv_name, *args):
     ])
 
 
-@command.register
+@command.register(admin=True)
 def conv_add(bot, event, conv_name, *args):
     """Invite users to existing conversation (use . for current conversation)
        Usage: /bot conv_add conversation_name [user_name_1] [user_name_2] [...]"""
@@ -47,7 +47,7 @@ def conv_add(bot, event, conv_name, *args):
         yield from bot._client.adduser(c.id_, chat_id_list)
 
 
-@command.register
+@command.register(admin=True)
 def conv_rename(bot, event, conv_name, *args):
     """Rename conversation (use . for current conversation)
        Usage: /bot conv_rename conversation_name new_conversation_name"""
@@ -59,7 +59,7 @@ def conv_rename(bot, event, conv_name, *args):
         yield from bot._client.setchatname(c.id_, new_conv_name)
 
 
-@command.register
+@command.register(admin=True)
 def conv_send(bot, event, conv_name, *args):
     """Send message to conversation as bot (use . for current conversation)
        Usage: /bot conv_send conversation_name text"""
@@ -70,7 +70,7 @@ def conv_send(bot, event, conv_name, *args):
         bot.send_message(c, ' '.join(args))
 
 
-@command.register
+@command.register(admin=True)
 def conv_leave(bot, event, conv_name='', *args):
     """Leave current (or specified) conversation
        Usage: /bot leave [conversation_name]"""
@@ -84,7 +84,7 @@ def conv_leave(bot, event, conv_name='', *args):
         yield from bot._conv_list.leave_conversation(c.id_)
 
 
-@command.register
+@command.register(admin=True)
 def conv_list(bot, event, conv_name='', *args):
     """List all conversations where bot is wreaking havoc
        Usage: /bot conv_list [conversation_name]

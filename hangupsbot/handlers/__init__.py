@@ -40,6 +40,7 @@ class EventHandler:
     def register(self, priority=10, event=None):
         """Decorator for registering event handler"""
         def wrapper(func):
+            # Automatically wrap handler function in coroutine
             func = asyncio.coroutine(func)
             entry = (priority, next(self.counter), func, event)
             self.handlers.append(entry)

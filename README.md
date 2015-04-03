@@ -75,6 +75,9 @@ your handler, current event will not be handled by any other handler.
 ### Commands
 
 Functions in plugins can be registered as `/bot` commands by decorating them with
-`@command.register` decorator.
+`@command.register(admin=False)` decorator.
+
+If _admin_ parameter is `False` (default), anyone can run the command.
+If _admin_ is `True`, only admins (as set in `config.json`) can run it.
 
 See existing commands for examples.

@@ -6,7 +6,7 @@ from hangupsbot.utils import text_to_segments
 from hangupsbot.commands import command
 
 
-@command.register
+@command.register(admin=True)
 def config(bot, event, cmd=None, *args):
     """Show or change bot configuration
        Usage: /bot config [get|set] [key] [subkey] [...] [value]"""
@@ -38,7 +38,7 @@ def config(bot, event, cmd=None, *args):
     bot.send_message_segments(event.conv, segments)
 
 
-@command.register
+@command.register(admin=True)
 def config_reload(bot, event, *args):
     """Reload bot configuration from file"""
     bot.config.load()

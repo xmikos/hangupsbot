@@ -5,7 +5,7 @@ from hangupsbot.utils import strip_quotes
 from hangupsbot.commands import command
 
 
-@command.register
+@command.register(admin=True)
 def user_list(bot, event, conv_name='', user_name='', *args):
     """List all participants in current (or specified) conversation
        You can also use . for current conversation. Includes G+ accounts and emails.
@@ -33,7 +33,7 @@ def user_list(bot, event, conv_name='', user_name='', *args):
     bot.send_message_segments(event.conv, segments)
 
 
-@command.register
+@command.register(admin=True)
 def user_find(bot, event, user_name='', *args):
     """Find users known to bot by their name
        Usage: /bot users_find [user_name]"""
