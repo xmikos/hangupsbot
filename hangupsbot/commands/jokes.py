@@ -8,7 +8,7 @@ from hangupsbot.commands import command
 
 @asyncio.coroutine
 def easteregg_combo(client, conv_id, easteregg, eggcount=1, period=0.5):
-    """Send easter egg combo (ponies, pitchforks, bikeshed, shydiny)"""
+    """Send easter egg combo (ponies, pitchforks, bikeshed, shydino)"""
     for i in range(eggcount):
         yield from client.sendeasteregg(conv_id, easteregg)
         if eggcount > 1:
