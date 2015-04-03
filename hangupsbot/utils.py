@@ -1,4 +1,4 @@
-import unicodedata
+import unicodedata, string
 
 import hangups
 
@@ -23,14 +23,23 @@ def text_to_segments(text):
     return segments
 
 
+def unicode_to_ascii(text):
+    """Transliterate unicode characters to ASCII"""
+    return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode()
+
+
 def word_in_text(word, text):
     """Return True if word is in text"""
-    # Transliterate unicode characters to ASCII and make everything lowercase
-    word = unicodedata.normalize('NFKD', word).encode('ascii', 'ignore').decode().lower()
-    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode().lower()
+    word = unicode_to_ascii(word).lower()
+    text = unicode_to_ascii(text).lower()
 
     # Replace delimiters in text with whitespace
     for delim in '.,:;!?':
         text = text.replace(delim, ' ')
 
     return True if word in text.split() else False
+
+
+def strip_quotes(text):
+    """Strip quotes and whitespace at the beginning and end of text"""
+    return text.strip(string.whitespace + '\'"')

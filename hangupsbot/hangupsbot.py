@@ -13,6 +13,7 @@ import sys, argparse, logging, shutil, asyncio, time, signal
 
 import appdirs
 import hangups
+from hangups.conversation import Conversation
 from hangups.ui.utils import get_conv_name
 
 import hangupsbot.config
@@ -88,7 +89,7 @@ class HangupsBot:
         ).add_done_callback(lambda future: future.result())
 
     def send_message(self, conversation, text):
-        """"Send simple chat message"""
+        """Send simple chat message"""
         self.send_message_segments(conversation, [hangups.ChatMessageSegment(text)])
 
     def send_message_segments(self, conversation, segments):
@@ -107,6 +108,36 @@ class HangupsBot:
         convs = sorted(self._conv_list.get_all(),
                        reverse=True, key=lambda c: c.last_modified)
         return convs
+
+    def find_conversations(self, conv_name):
+        """Find conversations by name or ID in list of all active conversations"""
+        conv_name = conv_name.strip()
+        conv_name_lower = conv_name.lower()
+        if conv_name_lower.startswith("id:"):
+            return [self._conv_list.get(conv_name[3:])]
+
+        convs = [c for c in self.list_conversations()
+                 if conv_name_lower in get_conv_name(c, truncate=True).lower()]
+        return convs
+
+    def list_users(self, conv=None):
+        """List all known users or all users in conversation"""
+        def full_name_sort(user):
+            split_name = user.full_name.split()
+            return (split_name[-1], split_name[0])
+        users = conv.users if isinstance(conv, Conversation) else self._user_list.get_all()
+        return sorted(users, key=full_name_sort)
+
+    def find_users(self, user_name, conv=None):
+        """Find users by name or ID in list of all known users or in conversation"""
+        user_name = user_name.strip()
+        user_name_lower = user_name.lower()
+        if user_name_lower.startswith("id:"):
+            return [self._user_list.get(user_name[3:])]
+
+        users = [u for u in self.list_users(conv=conv)
+                 if user_name_lower in u.full_name.lower()]
+        return users
 
     def get_config_suboption(self, conv_id, option):
         """Get config suboption for conversation (or global option if not defined)"""
