@@ -29,8 +29,8 @@ try logging in through a browser first.
 Help
 ----
 
-    usage: hangupsbot [-h] [-d] [--log LOG] [--cookies COOKIES] [--config CONFIG]
-    
+    usage: hangupsbot [-h] [-d] [--log LOG] [--cookies COOKIES] [--config CONFIG] [--version]
+
     optional arguments:
       -h, --help         show this help message and exit
       -d, --debug        log detailed debugging messages (default: False)
@@ -40,3 +40,41 @@ Help
                          ~/.local/share/hangupsbot/cookies.json)
       --config CONFIG    config storage path (default:
                          ~/.local/share/hangupsbot/config.json)
+      --version          show program's version number and exit
+
+Features (event handlers)
+-------------------------
+
+- **autoreplies** - automatically reply to specified keywords in messages
+- **commands** - run `/bot` commands (type `/bot help` for list of available commands)
+- **forwarding** - forward messages from one conversation to another
+- **membership** - watch conversations for added/removed users
+- **rename** - watch for renamed conversations (_only example plugin for now_)
+
+Development
+-----------
+
+You can extend HangupsBot in two ways - by writing `handlers` or `commands` plugins.
+Every Python file (which doesn't start with \_) in `handlers` and `commands` directories
+is loaded automatically.
+
+### Handlers
+
+Functions in plugins can be registered as event handlers by decorating them with
+`@handler.register(priority=10, event=None)` decorator.
+
+If _event_ parameter is `None` (default), all event types are forwarded to handler.
+If you want to handle only some specific type of event, you can set _event_
+to `hangups.ChatMessageEvent`, `hangups.MembershipChangeEvent`
+or `hangups.RenameEvent`.
+
+You can change priority of handler by specifying _priority_ parameter (default is 10).
+A lower number means higher priority. If you raise `StopEventHandling` exception in
+your handler, current event will not be handled by any other handler.
+
+### Commands
+
+Functions in plugins can be registered as `/bot` commands by decorating them with
+`@command.register` decorator.
+
+See existing commands for examples.
