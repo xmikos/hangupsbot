@@ -15,6 +15,39 @@ def get_unique_users(bot, user_list):
 
 
 @command.register(admin=True)
+def conv_refresh(bot, event, conv_name, *args):
+    """Create new conversation with same users as in old one except kicked users (use . for current conversation)
+       Usage: /bot conv_refresh conversation_name [kicked_user_name_1] [kicked_user_name_2] [...]"""
+    conv_name = strip_quotes(conv_name)
+    convs = [event.conv] if conv_name == '.' else bot.find_conversations(conv_name)
+    kicked_chat_ids = get_unique_users(bot, args)
+
+    for c in convs:
+        old_chat_ids = {u.id_.chat_id for u in bot.find_users('', conv=c)}
+        new_chat_ids = list(old_chat_ids - set(kicked_chat_ids))
+
+        # Create new conversation
+        res = yield from bot._client.createconversation(new_chat_ids, force_group=True)
+        conv_id = res['conversation']['id']['id']
+        yield from bot._client.setchatname(conv_id, c.name)
+        yield from bot._conv_list.get(conv_id).send_message([
+            hangups.ChatMessageSegment(_('Welcome! This is new refreshed conversation. Old conversation has been '
+                                         'terminated, but you are one of the lucky ones who survived cleansing! '
+                                         'If you are still in old conversation, please leave it.'))
+        ])
+
+
+        # Destroy old one and leave it
+        yield from bot._client.setchatname(c.id_, _('[TERMINATED] {}').format(c.name))
+        yield from c.send_message([
+            hangups.ChatMessageSegment(_('!!! WARNING !!!'), is_bold=True),
+            hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK),
+            hangups.ChatMessageSegment(_('This conversation has been terminated! Please leave immediately!'))
+        ])
+        yield from bot._conv_list.leave_conversation(c.id_)
+
+
+@command.register(admin=True)
 def conv_create(bot, event, conv_name, *args):
     """Create new conversation and invite users to it
        Usage: /bot conv_create conversation_name [user_name_1] [user_name_2] [...]"""
