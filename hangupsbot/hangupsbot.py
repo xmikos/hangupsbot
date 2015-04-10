@@ -178,10 +178,12 @@ class HangupsBot:
             print('  {} ({})'.format(get_conv_name(c, truncate=True), c.id_))
         print()
 
+    @asyncio.coroutine
     def _on_event(self, conv_event):
         """Handle conversation events"""
-        asyncio.async(handler.handle(self, conv_event))
+        yield from handler.handle(self, conv_event)
 
+    @asyncio.coroutine
     def _on_disconnect(self):
         """Handle disconnecting"""
         print(_('Connection lost!'))
