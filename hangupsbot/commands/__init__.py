@@ -31,7 +31,7 @@ class CommandDispatcher:
         except Exception as e:
             print(e)
 
-    def register(self, admin=False):
+    def register(self, *args, admin=False):
         """Decorator for registering command"""
         def wrapper(func):
             # Automatically wrap command function in coroutine
@@ -40,7 +40,13 @@ class CommandDispatcher:
             if admin:
                 self.commands_admin.append(func.__name__)
             return func
-        return wrapper
+
+        # If there is one (and only one) positional argument and this argument is callable,
+        # assume it is the decorator (without any optional keyword arguments)
+        if len(args) == 1 and callable(args[0]):
+            return wrapper(args[0])
+        else:
+            return wrapper
 
     def register_unknown(self, func):
         """Decorator for registering unknown command"""

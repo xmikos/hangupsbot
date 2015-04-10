@@ -37,7 +37,7 @@ class EventHandler:
         self.handlers = []
         self.counter = itertools.count()
 
-    def register(self, priority=10, event=None):
+    def register(self, *args, priority=10, event=None):
         """Decorator for registering event handler"""
         def wrapper(func):
             # Automatically wrap handler function in coroutine
@@ -46,7 +46,13 @@ class EventHandler:
             self.handlers.append(entry)
             self.handlers.sort()
             return func
-        return wrapper
+
+        # If there is one (and only one) positional argument and this argument is callable,
+        # assume it is the decorator (without any optional keyword arguments)
+        if len(args) == 1 and callable(args[0]):
+            return wrapper(args[0])
+        else:
+            return wrapper
 
     @asyncio.coroutine
     def handle(self, bot, event):
