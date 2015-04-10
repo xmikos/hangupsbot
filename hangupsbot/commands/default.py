@@ -12,7 +12,7 @@ def unknown_command(bot, event, *args):
                      _('{}: Unknown command!').format(event.user.full_name))
 
 
-@command.register()
+@command.register
 def help(bot, event, cmd=None, *args):
     """Help me, Obi-Wan Kenobi. You're my only hope.
        Usage: /bot help [command]"""
@@ -38,13 +38,13 @@ def help(bot, event, cmd=None, *args):
     bot.send_message_segments(event.conv, segments)
 
 
-@command.register()
+@command.register
 def ping(bot, event, *args):
     """Let's play ping pong!"""
     bot.send_message(event.conv, 'pong')
 
 
-@command.register()
+@command.register
 def echo(bot, event, *args):
     """Monkey see, monkey do!
        Usage: /bot echo text"""

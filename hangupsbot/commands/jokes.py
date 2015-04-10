@@ -28,7 +28,7 @@ def easteregg(bot, event, easteregg, eggcount=1, period=0.5, conv_name='', *args
         ).add_done_callback(lambda future: future.result())
 
 
-@command.register()
+@command.register
 def spoof(bot, event, *args):
     """Spoof IngressBot on specified GPS coordinates
        Usage: /bot spoof latitude,longitude [hack|fire|deploy|mod] [level] [count]"""
