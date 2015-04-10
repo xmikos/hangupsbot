@@ -157,17 +157,20 @@ class HangupsBot:
         except hangups.NetworkError:
             print(_('Failed to send message!'))
 
+    @asyncio.coroutine
     def _on_connect(self, initial_data):
         """Handle connecting for the first time"""
         print(_('Connected!'))
-        self._user_list = hangups.UserList(self._client,
-                                           initial_data.self_entity,
-                                           initial_data.entities,
-                                           initial_data.conversation_participants)
-        self._conv_list = hangups.ConversationList(self._client,
-                                                   initial_data.conversation_states,
-                                                   self._user_list,
-                                                   initial_data.sync_timestamp)
+        self._user_list = yield from hangups.build_user_list(
+            self._client,
+            initial_data
+        )
+        self._conv_list = hangups.ConversationList(
+            self._client,
+            initial_data.conversation_states,
+            self._user_list,
+            initial_data.sync_timestamp
+        )
         self._conv_list.on_event.add_observer(self._on_event)
 
         print(_('Conversations:'))
