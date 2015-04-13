@@ -1,3 +1,5 @@
+import re
+
 import hangups
 
 from hangupsbot.utils import word_in_text
@@ -18,7 +20,18 @@ def handle_autoreply(bot, event):
     autoreplies_list = bot.get_config_suboption(event.conv_id, 'autoreplies')
     if autoreplies_list:
         for kwds, sentence in autoreplies_list:
+            reply = False
             for kw in kwds:
-                if word_in_text(kw, event.text) or kw == "*":
-                    bot.send_message(event.conv, sentence)
+                if kw == "*":
+                    reply = True
                     break
+                elif kw.lower().startswith("regex:") and re.search(kw[6:], event.text,
+                                                                   re.DOTALL | re.IGNORECASE):
+                    reply = True
+                    break
+                elif word_in_text(kw, event.text):
+                    reply = True
+                    break
+            if reply:
+                bot.send_message(event.conv, sentence)
+
