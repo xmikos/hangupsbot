@@ -1,8 +1,7 @@
 import unicodedata, string
 
-import hangups
-
 from hangupsbot.parser import ChatMessageParser, tokens
+
 
 def text_to_segments(text):
     """Create list of message segments from text"""

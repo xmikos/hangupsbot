@@ -1,8 +1,6 @@
 import asyncio, random
 
-import hangups
-
-from hangupsbot.utils import strip_quotes
+from hangupsbot.utils import strip_quotes, text_to_segments
 from hangupsbot.commands import command
 
 
@@ -32,11 +30,9 @@ def easteregg(bot, event, easteregg, eggcount=1, period=0.5, conv_name='', *args
 def spoof(bot, event, *args):
     """Spoof IngressBot on specified GPS coordinates
        Usage: /bot spoof latitude,longitude [hack|fire|deploy|mod] [level] [count]"""
-    segments = [hangups.ChatMessageSegment(_('!!! WARNING !!!'), is_bold=True),
-                hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK)]
-    segments.append(hangups.ChatMessageSegment(_('Agent {} (').format(event.user.full_name)))
     link = 'https://plus.google.com/u/0/{}/about'.format(event.user.id_.chat_id)
-    segments.append(hangups.ChatMessageSegment(link, hangups.SegmentType.LINK,
-                                               link_target=link))
-    segments.append(hangups.ChatMessageSegment(_(') has been reported to Niantic for attempted spoofing!')))
-    bot.send_message_segments(event.conv, segments)
+    text = _(
+        '**!!! WARNING !!!**\n'
+        'Agent {} ({}) has been reported to Niantic for attempted spoofing!'
+    ).format(event.user.full_name, link)
+    yield from event.conv.send_message(text_to_segments(text))

@@ -1,7 +1,5 @@
 import json
 
-import hangups
-
 from hangupsbot.utils import text_to_segments
 from hangupsbot.commands import command
 
@@ -31,14 +29,15 @@ def config(bot, event, cmd=None, *args):
         value = _('Key not found!')
 
     config_path = ' '.join(k for k in ['config'] + config_args)
-    segments = [hangups.ChatMessageSegment('{}:'.format(config_path),
-                                           is_bold=True),
-                hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK)]
-    segments.extend(text_to_segments(json.dumps(value, indent=2, sort_keys=True)))
-    bot.send_message_segments(event.conv, segments)
+    text = (
+        '**{}:**\n'
+        '{}'
+    ).format(config_path, json.dumps(value, indent=2, sort_keys=True))
+    yield from event.conv.send_message(text_to_segments(text))
 
 
 @command.register(admin=True)
 def config_reload(bot, event, *args):
     """Reload bot configuration from file"""
     bot.config.load()
+    yield from event.conv.send_message(text_to_segments(_('Configuration reloaded')))

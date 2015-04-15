@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # Install modern gettext class-based API in Python's builtins namespace first
-import os, gettext
+import os, io, gettext
 localedir = os.path.join(os.path.dirname(__file__), 'locale')
 gettext.install('hangupsbot', localedir=localedir)
 
@@ -13,11 +13,13 @@ import sys, argparse, logging, shutil, asyncio, time, signal
 
 import appdirs
 import hangups
+from hangups import http_utils
 from hangups.conversation import Conversation
 from hangups.ui.utils import get_conv_name
 
 import hangupsbot.config
 from hangupsbot.version import __version__
+from hangupsbot.utils import text_to_segments
 from hangupsbot.handlers import handler
 
 
@@ -90,7 +92,7 @@ class HangupsBot:
 
     def send_message(self, conversation, text):
         """Send simple chat message"""
-        self.send_message_segments(conversation, [hangups.ChatMessageSegment(text)])
+        self.send_message_segments(conversation, text_to_segments(text))
 
     def send_message_segments(self, conversation, segments):
         """Send chat message segments"""
@@ -102,6 +104,28 @@ class HangupsBot:
         asyncio.async(
             conversation.send_message(segments)
         ).add_done_callback(self._on_message_sent)
+
+    @asyncio.coroutine
+    def upload_images(self, links):
+        """Download images and upload them to Google+"""
+        image_id_list = []
+        for link in links:
+            # Download image
+            try:
+                res = yield from http_utils.fetch('get', link)
+            except hangups.NetworkError as e:
+                print('Failed to download image: {}'.format(e))
+                continue
+
+            # Upload image and get image_id
+            try:
+                image_id = yield from self._client.upload_image(io.BytesIO(res.body),
+                                                                filename=os.path.basename(link))
+                image_id_list.append(image_id)
+            except hangups.NetworkError as e:
+                print('Failed to upload image: {}'.format(e))
+                continue
+        return image_id_list
 
     def list_conversations(self):
         """List all active conversations"""

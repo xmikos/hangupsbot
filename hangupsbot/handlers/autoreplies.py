@@ -2,8 +2,20 @@ import re
 
 import hangups
 
-from hangupsbot.utils import word_in_text
+from hangupsbot.utils import word_in_text, text_to_segments
 from hangupsbot.handlers import handler
+
+
+def find_keyword(kw, text):
+    """Return True if keyword is in text"""
+    if kw == "*":
+        return True
+    elif kw.lower().startswith("regex:") and re.search(kw[6:], text, re.DOTALL | re.IGNORECASE):
+        return True
+    elif word_in_text(kw, text):
+        return True
+    else:
+        return False
 
 
 @handler.register(priority=7, event=hangups.ChatMessageEvent)
@@ -17,21 +29,13 @@ def handle_autoreply(bot, event):
     if not bot.get_config_suboption(event.conv_id, 'autoreplies_enabled'):
         return
 
+    # Test if there are actually any autoreplies
     autoreplies_list = bot.get_config_suboption(event.conv_id, 'autoreplies')
-    if autoreplies_list:
-        for kwds, sentence in autoreplies_list:
-            reply = False
-            for kw in kwds:
-                if kw == "*":
-                    reply = True
-                    break
-                elif kw.lower().startswith("regex:") and re.search(kw[6:], event.text,
-                                                                   re.DOTALL | re.IGNORECASE):
-                    reply = True
-                    break
-                elif word_in_text(kw, event.text):
-                    reply = True
-                    break
-            if reply:
-                bot.send_message(event.conv, sentence)
+    if not autoreplies_list:
+        return
 
+    for kwds, sentence in autoreplies_list:
+        for kw in kwds:
+            if find_keyword(kw, event.text):
+                yield from event.conv.send_message(text_to_segments(sentence))
+                break

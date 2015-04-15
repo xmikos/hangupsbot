@@ -1,5 +1,6 @@
 import hangups
 
+from hangupsbot.utils import text_to_segments
 from hangupsbot.handlers import handler
 
 
@@ -20,17 +21,17 @@ def handle_membership_change(bot, event):
         # Test if user who added new participants is admin
         admins_list = bot.get_config_suboption(event.conv_id, 'admins')
         if event.user_id.chat_id in admins_list:
-            bot.send_message(event.conv,
-                             _('{}: Welcome!').format(names))
+            yield from event.conv.send_message(
+                text_to_segments(_('{}: Welcome!').format(names))
+            )
         else:
-            segments = [hangups.ChatMessageSegment(_('!!! WARNING !!!'), is_bold=True),
-                        hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK),
-                        hangups.ChatMessageSegment(_('{} invited user {} without authorization!').format(
-                                                   event.user.full_name, names)),
-                        hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK),
-                        hangups.ChatMessageSegment('\n', hangups.SegmentType.LINE_BREAK),
-                        hangups.ChatMessageSegment(_('{}: Please leave this conversation immediately!').format(names))]
-            bot.send_message_segments(event.conv, segments)
+            text = _(
+                '**!!! WARNING !!!**\n'
+                '{} invited user {} without authorization!\n'
+                '\n'
+                '{}: Please leave this conversation immediately!'
+            ).format(event.user.full_name, names, names)
+            bot.send_message(event.conv, text)
     # LEAVE
     else:
         bot.send_message(event.conv,
