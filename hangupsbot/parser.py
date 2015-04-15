@@ -42,6 +42,12 @@ class ChatMessageParser:
     def __init__(self, tokens):
         self.tokens = tokens
 
+    def preprocess(self, text):
+        """Preprocess text before parsing"""
+        # Replace two consecutive spaces with space and non-breakable space
+        # (this is how original Hangouts client does it to preserve multiple spaces)
+        return text.replace('  ', ' \xa0')
+
     def find_tokens(self, token, segment):
         """Find tokens in ParserSegment"""
         segment_list = []
@@ -75,8 +81,8 @@ class ChatMessageParser:
         return segment_list
 
     def parse(self, text):
-        """Parse text to obtain a list of ChatMessageSegments"""
-        segment_list = [ParserSegment(text)]
+        """Parse text to obtain list of ChatMessageSegments"""
+        segment_list = [ParserSegment(self.preprocess(text))]
         for token in self.tokens:
             new_segment_list = []
             for segment in segment_list:
