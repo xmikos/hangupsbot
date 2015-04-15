@@ -111,7 +111,6 @@ tokens = [
     ParserToken(inline_re.format(tag=r'_'), is_italic=True),
     ParserToken(inline_re.format(tag=r'~~'), is_strikethrough=True),
     ParserToken(inline_re.format(tag=r'=='), is_underline=True),
-    ParserToken(inline_re.format(tag=r'=='), is_underline=True),
     ParserToken(inline_link_re, link_target=ParserMatchGroup('url')),
     ParserToken(auto_link_re, link_target=ParserMatchGroup('text')),
     ParserToken(newline_re, segment_type=SegmentType.LINE_BREAK)
