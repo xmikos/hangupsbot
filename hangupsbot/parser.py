@@ -3,7 +3,7 @@ from hangups import ChatMessageSegment, SegmentType
 
 
 # Regex patterns used by token definitions
-markdown_re = r'(^|\s)(?P<start>{tag})(?P<text>\S.+?\S)(?P<end>{tag})(\s|$)'
+markdown_re = r'\b(?P<start>{tag})(?!{tag})(?P<text>\S.+?\S)(?<!{tag})(?P<end>{tag})\b'
 markdown_link_re = r'(?P<start>\[)(?P<text>.+?)\]\((?P<url>.+?)(?P<end>\))'
 html_re = r'(?P<start><{tag}>)(?P<text>.+?)(?P<end></{tag}>)'
 html_link_re = r'(?P<start><a href=[\'"](?P<url>.+?)[\'"]>)(?P<text>.+?)(?P<end></a>)'
