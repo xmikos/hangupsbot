@@ -1,12 +1,11 @@
 import unicodedata, string
 
-from hangupsbot.parser import ChatMessageParser, tokens
+from hangupsbot.parser import ChatMessageParser
 
 
 def text_to_segments(text):
     """Create list of message segments from text"""
-    parser = ChatMessageParser(tokens)
-    return parser.parse(text)
+    return ChatMessageParser().parse(text)
 
 
 def unicode_to_ascii(text):

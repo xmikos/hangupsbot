@@ -14,4 +14,4 @@ setup(name='HangupsBot',
       package_data={'hangupsbot': ['config.json',
                                    'locale/*/*/*.mo']},
       scripts=['scripts/hangupsbot'],
-      requires=['hangups', 'appdirs', 'asyncio'])
+      requires=['hangups', 'reparser', 'appdirs', 'asyncio'])

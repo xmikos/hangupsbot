@@ -8,6 +8,7 @@ Requirements
 
 - Python >= 3.3
 - hangups (https://github.com/tdryer/hangups)
+- ReParser (https://github.com/xmikos/reparser)
 - appdirs (https://github.com/ActiveState/appdirs)
 - asyncio (https://pypi.python.org/pypi/asyncio) for Python < 3.4
 
