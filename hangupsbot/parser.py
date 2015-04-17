@@ -14,7 +14,8 @@ markdown = b_left + r'(?P<start>{tag})(?P<text>\S.+?\S)(?P<end>{tag})' + b_right
 markdown_link = r'(?P<start>\[)(?P<text>.+?)\]\((?P<url>.+?)(?P<end>\))'
 html = r'(?i)(?P<start><{tag}>)(?P<text>.+?)(?P<end></{tag}>)'
 html_link = r'(?i)(?P<start><a href=[\'"](?P<url>.+?)[\'"]>)(?P<text>.+?)(?P<end></a>)'
-html_newline = r'(?i)(?P<text><br([\s]*/)?>)'
+html_img = r'(?i)(?P<text><img src=[\'"](?P<url>.+?)[\'"](\s*/)?>)'
+html_newline = r'(?i)(?P<text><br(\s*/)?>)'
 newline = r'(?P<text>\n|\r\n)'
 
 # Based on URL regex pattern by John Gruber (http://gist.github.com/gruber/249502)
@@ -30,7 +31,7 @@ class Tokens:
     """Groups of tokens to be used by ChatMessageParser"""
     basic = [
         Token(auto_link, link_target=MatchGroup('text', func=url_complete)),
-        Token(newline, segment_type=SegmentType.LINE_BREAK)
+        Token(newline, text='\n', segment_type=SegmentType.LINE_BREAK)
     ]
 
     markdown = [
@@ -57,7 +58,9 @@ class Tokens:
         Token(html.format(tag=r'ins'), is_underline=True),
         Token(html.format(tag=r'mark'), is_underline=True),
         Token(html_link, link_target=MatchGroup('url', func=url_complete)),
-        Token(html_newline, segment_type=SegmentType.LINE_BREAK)
+        Token(html_img, text=MatchGroup('url', func=url_complete),
+              link_target=MatchGroup('url', func=url_complete)),
+        Token(html_newline, text='\n', segment_type=SegmentType.LINE_BREAK)
     ]
 
 
