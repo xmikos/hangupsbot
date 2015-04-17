@@ -2,15 +2,20 @@ from reparser import Parser, Token, MatchGroup
 from hangups import ChatMessageSegment, SegmentType
 
 
+# Common regex patterns
+boundary_chars = r'\s`!()\[\]{{}};:\'".,<>?«»“”‘’'
+b_left = r'(?:(?<=[' + boundary_chars + r'])|(?<=^))' # Lookbehind
+b_right = r'(?:(?=[' + boundary_chars + r'])|(?=$))' # Lookahead
+
 # Regex patterns used by token definitions
-markdown_re = r'\b(?P<start>{tag})(?!{tag})(?P<text>\S.+?\S)(?<!{tag})(?P<end>{tag})\b'
+markdown_re = b_left + r'(?P<start>{tag})(?P<text>\S.+?\S)(?P<end>{tag})' + b_right
 markdown_link_re = r'(?P<start>\[)(?P<text>.+?)\]\((?P<url>.+?)(?P<end>\))'
 html_re = r'(?P<start><{tag}>)(?P<text>.+?)(?P<end></{tag}>)'
 html_link_re = r'(?P<start><a href=[\'"](?P<url>.+?)[\'"]>)(?P<text>.+?)(?P<end></a>)'
 html_newline_re = r'(?P<text><br([\s]*/)?>)'
 newline_re = r'(?P<text>\n|\r\n)'
 
-# URL regex pattern by John Gruber (http://gist.github.com/gruber/249502)
+# Based on URL regex pattern by John Gruber (http://gist.github.com/gruber/249502)
 auto_link_re = (r'(?i)\b(?P<text>(?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)'
                 r'(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+'
                 r'(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))')
