@@ -1,3 +1,5 @@
+import re
+
 from reparser import Parser, Token, MatchGroup
 from hangups import ChatMessageSegment, SegmentType
 
@@ -8,51 +10,54 @@ b_left = r'(?:(?<=[' + boundary_chars + r'])|(?<=^))' # Lookbehind
 b_right = r'(?:(?=[' + boundary_chars + r'])|(?=$))' # Lookahead
 
 # Regex patterns used by token definitions
-markdown_re = b_left + r'(?P<start>{tag})(?P<text>\S.+?\S)(?P<end>{tag})' + b_right
-markdown_link_re = r'(?P<start>\[)(?P<text>.+?)\]\((?P<url>.+?)(?P<end>\))'
-html_re = r'(?P<start><{tag}>)(?P<text>.+?)(?P<end></{tag}>)'
-html_link_re = r'(?P<start><a href=[\'"](?P<url>.+?)[\'"]>)(?P<text>.+?)(?P<end></a>)'
-html_newline_re = r'(?P<text><br([\s]*/)?>)'
-newline_re = r'(?P<text>\n|\r\n)'
+markdown = b_left + r'(?P<start>{tag})(?P<text>\S.+?\S)(?P<end>{tag})' + b_right
+markdown_link = r'(?P<start>\[)(?P<text>.+?)\]\((?P<url>.+?)(?P<end>\))'
+html = r'(?i)(?P<start><{tag}>)(?P<text>.+?)(?P<end></{tag}>)'
+html_link = r'(?i)(?P<start><a href=[\'"](?P<url>.+?)[\'"]>)(?P<text>.+?)(?P<end></a>)'
+html_newline = r'(?i)(?P<text><br([\s]*/)?>)'
+newline = r'(?P<text>\n|\r\n)'
 
 # Based on URL regex pattern by John Gruber (http://gist.github.com/gruber/249502)
-auto_link_re = (r'(?i)\b(?P<text>(?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)'
-                r'(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+'
-                r'(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))')
+auto_link = (r'(?i)\b(?P<text>'
+             r'(?:[a-z][\w-]+:/{1,3}|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)'
+             r'(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+'
+             r'(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))')
 
+url_proto_re = re.compile(r'(?i)^[a-z][\w-]+:/{1,3}')
+url_complete = lambda u: u if url_proto_re.search(u) else 'http://' + u
 
 class Tokens:
     """Groups of tokens to be used by ChatMessageParser"""
     basic = [
-        Token(auto_link_re, link_target=MatchGroup('text')),
-        Token(newline_re, segment_type=SegmentType.LINE_BREAK)
+        Token(auto_link, link_target=MatchGroup('text', func=url_complete)),
+        Token(newline, segment_type=SegmentType.LINE_BREAK)
     ]
 
     markdown = [
-        Token(markdown_re.format(tag=r'\*\*\*'), is_bold=True, is_italic=True),
-        Token(markdown_re.format(tag=r'___'), is_bold=True, is_italic=True),
-        Token(markdown_re.format(tag=r'\*\*'), is_bold=True),
-        Token(markdown_re.format(tag=r'__'), is_bold=True),
-        Token(markdown_re.format(tag=r'\*'), is_italic=True),
-        Token(markdown_re.format(tag=r'_'), is_italic=True),
-        Token(markdown_re.format(tag=r'~~'), is_strikethrough=True),
-        Token(markdown_re.format(tag=r'=='), is_underline=True),
-        Token(markdown_link_re, link_target=MatchGroup('url')),
+        Token(markdown.format(tag=r'\*\*\*'), is_bold=True, is_italic=True),
+        Token(markdown.format(tag=r'___'), is_bold=True, is_italic=True),
+        Token(markdown.format(tag=r'\*\*'), is_bold=True),
+        Token(markdown.format(tag=r'__'), is_bold=True),
+        Token(markdown.format(tag=r'\*'), is_italic=True),
+        Token(markdown.format(tag=r'_'), is_italic=True),
+        Token(markdown.format(tag=r'~~'), is_strikethrough=True),
+        Token(markdown.format(tag=r'=='), is_underline=True),
+        Token(markdown_link, link_target=MatchGroup('url', func=url_complete))
     ]
 
     html = [
-        Token(html_re.format(tag=r'b'), is_bold=True),
-        Token(html_re.format(tag=r'strong'), is_bold=True),
-        Token(html_re.format(tag=r'i'), is_italic=True),
-        Token(html_re.format(tag=r'em'), is_italic=True),
-        Token(html_re.format(tag=r's'), is_strikethrough=True),
-        Token(html_re.format(tag=r'strike'), is_strikethrough=True),
-        Token(html_re.format(tag=r'del'), is_strikethrough=True),
-        Token(html_re.format(tag=r'u'), is_underline=True),
-        Token(html_re.format(tag=r'ins'), is_underline=True),
-        Token(html_re.format(tag=r'mark'), is_underline=True),
-        Token(html_link_re, link_target=MatchGroup('url')),
-        Token(html_newline_re, segment_type=SegmentType.LINE_BREAK)
+        Token(html.format(tag=r'b'), is_bold=True),
+        Token(html.format(tag=r'strong'), is_bold=True),
+        Token(html.format(tag=r'i'), is_italic=True),
+        Token(html.format(tag=r'em'), is_italic=True),
+        Token(html.format(tag=r's'), is_strikethrough=True),
+        Token(html.format(tag=r'strike'), is_strikethrough=True),
+        Token(html.format(tag=r'del'), is_strikethrough=True),
+        Token(html.format(tag=r'u'), is_underline=True),
+        Token(html.format(tag=r'ins'), is_underline=True),
+        Token(html.format(tag=r'mark'), is_underline=True),
+        Token(html_link, link_target=MatchGroup('url', func=url_complete)),
+        Token(html_newline, segment_type=SegmentType.LINE_BREAK)
     ]
 
 
