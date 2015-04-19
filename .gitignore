@@ -1,6 +1,10 @@
 __pycache__/
 *.py[cod]
 
+build/
+dist/
+MANIFEST
+
 hangups
 purplex
 aiohttp

@@ -15,11 +15,11 @@ Requirements
 Usage
 -----
 
-Run `hangupsbot --help` to see all available options.
-Start HangupsBot by running `hangupsbot`.
+Run ``hangupsbot --help`` to see all available options.
+Start HangupsBot by running ``hangupsbot``.
 
-You can configure basic settings in `config.json` file. This file will be
-copied to user data directory (e.g. `~/.local/share/hangupsbot/` on Linux)
+You can configure basic settings in ``config.json`` file. This file will be
+copied to user data directory (e.g. ``~/.local/share/hangupsbot/`` on Linux)
 after first start of HangupsBot.
 
 The first time you start HangupsBot, you will be prompted to log into your
@@ -29,6 +29,7 @@ try logging in through a browser first.
 
 Help
 ----
+::
 
     usage: hangupsbot [-h] [-d] [--log LOG] [--cookies COOKIES] [--config CONFIG] [--version]
 
@@ -47,38 +48,40 @@ Features (event handlers)
 -------------------------
 
 - **autoreplies** - automatically reply to specified keywords in messages
-- **commands** - run `/bot` commands (type `/bot help` for list of available commands)
+- **commands** - run ``/bot`` commands (type ``/bot help`` for list of available commands)
 - **forwarding** - forward messages from one conversation to another
 - **membership** - watch conversations for added/removed users
-- **rename** - watch for renamed conversations (_only example plugin for now_)
+- **rename** - watch for renamed conversations (*only example plugin for now*)
 
 Development
 -----------
 
-You can extend HangupsBot in two ways - by writing `handlers` or `commands` plugins.
-Every Python file (which doesn't start with \_) in `handlers` and `commands` directories
+You can extend HangupsBot in two ways - by writing ``handlers`` or ``commands`` plugins.
+Every Python file (which doesn't start with \_) in ``handlers`` and ``commands`` directories
 is loaded automatically.
 
-### Handlers
+Handlers
+^^^^^^^^
 
 Functions in plugins can be registered as event handlers by decorating them with
-`@handler.register(priority=10, event=None)` decorator.
+``@handler.register(priority=10, event=None)`` decorator.
 
-If _event_ parameter is `None` (default), all event types are forwarded to handler.
-If you want to handle only some specific type of event, you can set _event_
-to `hangups.ChatMessageEvent`, `hangups.MembershipChangeEvent`
-or `hangups.RenameEvent`.
+If *event* parameter is ``None`` (default), all event types are forwarded to handler.
+If you want to handle only some specific type of event, you can set *event*
+to ``hangups.ChatMessageEvent``, ``hangups.MembershipChangeEvent``
+or ``hangups.RenameEvent``.
 
-You can change priority of handler by specifying _priority_ parameter (default is 10).
-A lower number means higher priority. If you raise `StopEventHandling` exception in
+You can change priority of handler by specifying *priority* parameter (default is 10).
+A lower number means higher priority. If you raise ``StopEventHandling`` exception in
 your handler, current event will not be handled by any other handler.
 
-### Commands
+Commands
+^^^^^^^^
 
-Functions in plugins can be registered as `/bot` commands by decorating them with
-`@command.register(admin=False)` decorator.
+Functions in plugins can be registered as ``/bot`` commands by decorating them with
+``@command.register(admin=False)`` decorator.
 
-If _admin_ parameter is `False` (default), anyone can run the command.
-If _admin_ is `True`, only admins (as set in `config.json`) can run it.
+If *admin* parameter is ``False`` (default), anyone can run the command.
+If *admin* is ``True``, only admins (as set in ``config.json``) can run it.
 
 See existing commands for examples.
