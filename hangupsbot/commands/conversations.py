@@ -102,7 +102,7 @@ def conv_send(bot, event, conv_name, *args):
 @command.register(admin=True)
 def conv_leave(bot, event, conv_name='', *args):
     """Leave current (or specified) conversation
-       Usage: /bot leave [conversation_name]"""
+       Usage: /bot conv_leave [conversation_name]"""
     conv_name = strip_quotes(conv_name)
 
     convs = [event.conv] if not conv_name or conv_name == '.' else bot.find_conversations(conv_name)

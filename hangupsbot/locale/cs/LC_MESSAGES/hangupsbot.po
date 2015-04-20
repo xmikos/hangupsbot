@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2015-03-27 15:00+CET\n"
-"PO-Revision-Date: 2015-03-27 15:37+0100\n"
+"POT-Creation-Date: 2015-04-20 01:43+CEST\n"
+"PO-Revision-Date: 2015-04-20 02:26+0200\n"
 "Last-Translator: Michal Krenek (Mikos) <m.krenek@gmail.com>\n"
 "Language-Team: Czech <>\n"
 "Language: cs\n"
@@ -16,136 +16,606 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: /usr/lib/python3.4/site-packages/argparse.py:313
+#: /usr/lib/python3.4/argparse.py:3
+msgid ""
+"Command-line parsing library\n"
+"\n"
+"This module is an optparse-inspired command-line parsing library that:\n"
+"\n"
+"    - handles both optional and positional arguments\n"
+"    - produces highly informative usage messages\n"
+"    - supports parsers that dispatch to sub-parsers\n"
+"\n"
+"The following is a simple usage example that sums integers from the\n"
+"command-line and writes the result to a file::\n"
+"\n"
+"    parser = argparse.ArgumentParser(\n"
+"        description='sum the integers at the command line')\n"
+"    parser.add_argument(\n"
+"        'integers', metavar='int', nargs='+', type=int,\n"
+"        help='an integer to be summed')\n"
+"    parser.add_argument(\n"
+"        '--log', default=sys.stdout, type=argparse.FileType('w'),\n"
+"        help='the file where the sum should be written')\n"
+"    args = parser.parse_args()\n"
+"    args.log.write('%s' % sum(args.integers))\n"
+"    args.log.close()\n"
+"\n"
+"The module contains the following public classes:\n"
+"\n"
+"    - ArgumentParser -- The main entry point for command-line parsing. As "
+"the\n"
+"        example above shows, the add_argument() method is used to populate\n"
+"        the parser with actions for optional and positional arguments. Then\n"
+"        the parse_args() method is invoked to convert the args at the\n"
+"        command-line into an object with attributes.\n"
+"\n"
+"    - ArgumentError -- The exception raised by ArgumentParser objects when\n"
+"        there are errors with the parser's actions. Errors raised while\n"
+"        parsing the command-line are caught by ArgumentParser and emitted\n"
+"        as command-line messages.\n"
+"\n"
+"    - FileType -- A factory for defining types of files to be created. As "
+"the\n"
+"        example above shows, instances of FileType are typically passed as\n"
+"        the type= argument of add_argument() calls.\n"
+"\n"
+"    - Action -- The base class for parser actions. Typically actions are\n"
+"        selected by passing strings like 'store_true' or 'append_const' to\n"
+"        the action= argument of add_argument(). However, for greater\n"
+"        customization of ArgumentParser actions, subclasses of Action may\n"
+"        be defined and passed as the action= argument.\n"
+"\n"
+"    - HelpFormatter, RawDescriptionHelpFormatter, RawTextHelpFormatter,\n"
+"        ArgumentDefaultsHelpFormatter -- Formatter classes which\n"
+"        may be passed as the formatter_class= argument to the\n"
+"        ArgumentParser constructor. HelpFormatter is the default,\n"
+"        RawDescriptionHelpFormatter and RawTextHelpFormatter tell the "
+"parser\n"
+"        not to change the formatting for help text, and\n"
+"        ArgumentDefaultsHelpFormatter adds information about argument "
+"defaults\n"
+"        to the help.\n"
+"\n"
+"All other classes in this module are considered implementation details.\n"
+"(Also note that HelpFormatter and RawDescriptionHelpFormatter are only\n"
+"considered public as object names -- the API of the formatter objects is\n"
+"still considered an implementation detail.)\n"
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:110
+msgid ""
+"Abstract base class that provides __repr__.\n"
+"\n"
+"    The __repr__ method returns a string in the format::\n"
+"        ClassName(attr=name, attr=name, ...)\n"
+"    The attributes are determined either by a class-level attribute,\n"
+"    '_kwarg_names', or by inspecting the instance __dict__.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:145
+msgid ""
+"Formatter for generating usage messages and argument help strings.\n"
+"\n"
+"    Only the name of this class is considered a public API. All the methods\n"
+"    provided by the class are considered an implementation detail.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:291
 msgid "usage: "
 msgstr "použití: "
 
-#: /usr/lib/python3.4/site-packages/argparse.py:821
+#: /usr/lib/python3.4/argparse.py:634
+msgid ""
+"Help message formatter which retains any formatting in descriptions.\n"
+"\n"
+"    Only the name of this class is considered a public API. All the methods\n"
+"    provided by the class are considered an implementation detail.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:645
+msgid ""
+"Help message formatter which retains formatting of all help text.\n"
+"\n"
+"    Only the name of this class is considered a public API. All the methods\n"
+"    provided by the class are considered an implementation detail.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:656
+msgid ""
+"Help message formatter which adds default values to argument help.\n"
+"\n"
+"    Only the name of this class is considered a public API. All the methods\n"
+"    provided by the class are considered an implementation detail.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:673
+msgid ""
+"Help message formatter which uses the argument 'type' as the default\n"
+"    metavar value (instead of the argument 'dest')\n"
+"\n"
+"    Only the name of this class is considered a public API. All the methods\n"
+"    provided by the class are considered an implementation detail.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:706
+msgid ""
+"An error from creating or using an argument (optional or positional).\n"
+"\n"
+"    The string value of this exception is the message, augmented with\n"
+"    information about the argument that caused it.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:726
+msgid "An error from trying to convert a command line string to a type."
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:735
+msgid ""
+"Information about how to convert command line strings to Python objects.\n"
+"\n"
+"    Action objects are used by an ArgumentParser to represent the "
+"information\n"
+"    needed to parse a single argument from one or more strings from the\n"
+"    command line. The keyword arguments to the Action constructor are also\n"
+"    all attributes of Action instances.\n"
+"\n"
+"    Keyword Arguments:\n"
+"\n"
+"        - option_strings -- A list of command-line option strings which\n"
+"            should be associated with this action.\n"
+"\n"
+"        - dest -- The name of the attribute to hold the created object(s)\n"
+"\n"
+"        - nargs -- The number of command-line arguments that should be\n"
+"            consumed. By default, one argument will be consumed and a "
+"single\n"
+"            value will be produced.  Other values include:\n"
+"                - N (an integer) consumes N arguments (and produces a list)\n"
+"                - '?' consumes zero or one arguments\n"
+"                - '*' consumes zero or more arguments (and produces a list)\n"
+"                - '+' consumes one or more arguments (and produces a list)\n"
+"            Note that the difference between the default and nargs=1 is "
+"that\n"
+"            with the default, a single value will be produced, while with\n"
+"            nargs=1, a list containing a single value will be produced.\n"
+"\n"
+"        - const -- The value to be produced if the option is specified and "
+"the\n"
+"            option uses an action that takes no values.\n"
+"\n"
+"        - default -- The value to be produced if the option is not "
+"specified.\n"
+"\n"
+"        - type -- A callable that accepts a single string argument, and\n"
+"            returns the converted value.  The standard Python types str, "
+"int,\n"
+"            float, and complex are useful examples of such callables.  If "
+"None,\n"
+"            str is used.\n"
+"\n"
+"        - choices -- A container of values that should be allowed. If not "
+"None,\n"
+"            after a command-line argument has been converted to the "
+"appropriate\n"
+"            type, an exception will be raised if it is not a member of this\n"
+"            collection.\n"
+"\n"
+"        - required -- True if the action must always be specified at the\n"
+"            command line. This is only meaningful for optional command-line\n"
+"            arguments.\n"
+"\n"
+"        - help -- The help string describing the argument.\n"
+"\n"
+"        - metavar -- The name to be used for the option's argument with the\n"
+"            help string. If None, the 'dest' value will be used as the "
+"name.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:822
 msgid ".__call__() not defined"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1349
+#: /usr/lib/python3.4/argparse.py:1119
+msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:1143
+msgid ""
+"Factory for creating file object types\n"
+"\n"
+"    Instances of FileType are typically passed as type= arguments to the\n"
+"    ArgumentParser add_argument() method.\n"
+"\n"
+"    Keyword Arguments:\n"
+"        - mode -- A string indicating how the file is to be opened. Accepts "
+"the\n"
+"            same values as the builtin open() function.\n"
+"        - bufsize -- The file's desired buffer size. Accepts the same values "
+"as\n"
+"            the builtin open() function.\n"
+"        - encoding -- The file's encoding. Accepts the same values as the\n"
+"            builtin open() function.\n"
+"        - errors -- A string indicating how encoding and decoding errors are "
+"to\n"
+"            be handled. Accepts the same value as the builtin open() "
+"function.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:1173
+msgid "argument \"-\" with mode %r"
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:1181
+msgid "can't open '%s': %s"
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:1197
+msgid ""
+"Simple object for storing attributes.\n"
+"\n"
+"    Implements equality by attribute names and values, and provides a "
+"simple\n"
+"    string representation.\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:1305
+msgid ""
+"\n"
+"        add_argument(dest, ..., name=value, ...)\n"
+"        add_argument(option_string, option_string, ..., name=value, ...)\n"
+"        "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:1390
 msgid "cannot merge actions - two groups are named %r"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1387
+#: /usr/lib/python3.4/argparse.py:1428
 msgid "'required' is an invalid argument for positionals"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1407
-msgid "invalid option string %r: must start with a character %r"
+#: /usr/lib/python3.4/argparse.py:1450
+msgid ""
+"invalid option string %(option)r: must start with a character "
+"%(prefix_chars)r"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1428
+#: /usr/lib/python3.4/argparse.py:1470
 msgid "dest= is required for options like %r"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1445
+#: /usr/lib/python3.4/argparse.py:1487
 msgid "invalid conflict_resolution value: %r"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1463
-msgid "conflicting option string(s): %s"
-msgstr ""
-
-#: /usr/lib/python3.4/site-packages/argparse.py:1526
+#: /usr/lib/python3.4/argparse.py:1571
 msgid "mutually exclusive arguments must be optional"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1596
+#: /usr/lib/python3.4/argparse.py:1583
+msgid ""
+"Object for parsing command line strings into Python objects.\n"
+"\n"
+"    Keyword Arguments:\n"
+"        - prog -- The name of the program (default: sys.argv[0])\n"
+"        - usage -- A usage message (default: auto-generated from arguments)\n"
+"        - description -- A description of what the program does\n"
+"        - epilog -- Text following the argument descriptions\n"
+"        - parents -- Parsers whose arguments should be copied into this one\n"
+"        - formatter_class -- HelpFormatter class for printing help messages\n"
+"        - prefix_chars -- Characters that prefix optional arguments\n"
+"        - fromfile_prefix_chars -- Characters that prefix files containing\n"
+"            additional arguments\n"
+"        - argument_default -- The default value for all arguments\n"
+"        - conflict_handler -- String indicating how to handle conflicts\n"
+"        - add_help -- Add a -h/-help option\n"
+"    "
+msgstr ""
+
+#: /usr/lib/python3.4/argparse.py:1631
 msgid "positional arguments"
 msgstr "povinné argumenty"
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1597
+#: /usr/lib/python3.4/argparse.py:1632
 msgid "optional arguments"
 msgstr "volitelné argumenty"
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1615
+#: /usr/lib/python3.4/argparse.py:1647
 msgid "show this help message and exit"
 msgstr "vypíše tuto nápovědu a skončí"
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1621
-msgid "show program's version number and exit"
-msgstr "vypíše verzi programu a skončí"
-
-#: /usr/lib/python3.4/site-packages/argparse.py:1653
+#: /usr/lib/python3.4/argparse.py:1678
 msgid "cannot have multiple subparser arguments"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1705
+#: /usr/lib/python3.4/argparse.py:1730
 msgid "unrecognized arguments: %s"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1802
+#: /usr/lib/python3.4/argparse.py:1827
 msgid "not allowed with argument %s"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1848
-#: /usr/lib/python3.4/site-packages/argparse.py:1862
+#: /usr/lib/python3.4/argparse.py:1873 /usr/lib/python3.4/argparse.py:1887
 msgid "ignored explicit argument %r"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1952
-msgid "too few arguments"
+#: /usr/lib/python3.4/argparse.py:1994
+msgid "the following arguments are required: %s"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:1959
-msgid "argument %s is required"
-msgstr ""
-
-#: /usr/lib/python3.4/site-packages/argparse.py:1973
+#: /usr/lib/python3.4/argparse.py:2009
 msgid "one of the arguments %s is required"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2019
+#: /usr/lib/python3.4/argparse.py:2052
 msgid "expected one argument"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2020
+#: /usr/lib/python3.4/argparse.py:2053
 msgid "expected at most one argument"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2021
+#: /usr/lib/python3.4/argparse.py:2054
 msgid "expected at least one argument"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2023
-msgid "expected %s argument(s)"
+#: /usr/lib/python3.4/argparse.py:2115
+msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2080
-msgid "ambiguous option: %s could match %s"
-msgstr ""
-
-#: /usr/lib/python3.4/site-packages/argparse.py:2142
+#: /usr/lib/python3.4/argparse.py:2178
 msgid "unexpected option string: %s"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2243
+#: /usr/lib/python3.4/argparse.py:2282
 msgid "%r is not callable"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2259
-msgid "invalid %s value: %r"
+#: /usr/lib/python3.4/argparse.py:2299
+msgid "invalid %(type)s value: %(value)r"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2269
-msgid "invalid choice: %r (choose from %s)"
+#: /usr/lib/python3.4/argparse.py:2310
+msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr ""
 
-#: /usr/lib/python3.4/site-packages/argparse.py:2362
-msgid "%s: error: %s\n"
-msgstr "%s: chyba: %s\n"
+#: /usr/lib/python3.4/argparse.py:2376
+msgid ""
+"error(message: string)\n"
+"\n"
+"        Prints a usage message incorporating the message to stderr and\n"
+"        exits.\n"
+"\n"
+"        If you override this in a subclass, it should not return -- it\n"
+"        should either exit or raise an exception.\n"
+"        "
+msgstr ""
 
-#: hangupsbot/commands/default.py:12
+#: /usr/lib/python3.4/argparse.py:2386
+msgid "%(prog)s: error: %(message)s\n"
+msgstr "%(prog)s: chyba: %(message)s\n"
+
+#: hangupsbot/__main__.py:60
+msgid "Login failed ({})"
+msgstr "Přihlášení selhalo ({})"
+
+#: hangupsbot/__main__.py:80
+msgid ""
+"Client unexpectedly disconnected:\n"
+"{}"
+msgstr ""
+"Klient byl neočekávaně odpojen od serveru:\n"
+"{}"
+
+#: hangupsbot/__main__.py:81
+msgid "Waiting {} seconds..."
+msgstr "Čekám {} sekund..."
+
+#: hangupsbot/__main__.py:83
+msgid "Trying to connect again (try {} of {})..."
+msgstr "Pokouším se znovu připojit (pokus {} z {})..."
+
+#: hangupsbot/__main__.py:84
+msgid "Maximum number of retries reached! Exiting..."
+msgstr "Dosažen maximální počet pokusů o připojení! Ukončuji..."
+
+#: hangupsbot/__main__.py:182
+msgid "Failed to send message!"
+msgstr "Nepodařilo se odeslat zprávu!"
+
+#: hangupsbot/__main__.py:187
+msgid "Connected!"
+msgstr "Připojen!"
+
+#: hangupsbot/__main__.py:200
+msgid "Conversations:"
+msgstr "Konverzace:"
+
+#: hangupsbot/__main__.py:213
+msgid "Connection lost!"
+msgstr "Připojení ztraceno!"
+
+#: hangupsbot/__main__.py:228
+msgid "log detailed debugging messages"
+msgstr "ukládat do logu podrobné debugovací zprávy"
+
+#: hangupsbot/__main__.py:230
+msgid "log file path"
+msgstr "cesta k souboru logu"
+
+#: hangupsbot/__main__.py:232
+msgid "cookie storage path"
+msgstr "cesta k souboru cookies"
+
+#: hangupsbot/__main__.py:234
+msgid "config storage path"
+msgstr "cesta ke konfiguračnímu souboru"
+
+#: hangupsbot/__main__.py:236
+msgid "show program's version number and exit"
+msgstr "vypíše verzi programu a skončí"
+
+#: hangupsbot/__main__.py:246
+msgid "Failed to create directory: {}"
+msgstr "Nepodařilo se vytvořit adresář: {}"
+
+#: hangupsbot/__main__.py:254
+msgid "Failed to copy default config file: {}"
+msgstr "Nepodařilo se zkopírovat výchozí konfigurační soubor: {}"
+
+#: hangupsbot/commands/config.py:9
+msgid ""
+"Show or change bot configuration\n"
+"       Usage: /bot config [get|set] [key] [subkey] [...] [value]"
+msgstr ""
+"Zobrazí nebo upraví konfiguraci bota\n"
+"       Použití: /bot config [get|set] [key] [subkey] [...] [value]"
+
+#: hangupsbot/commands/config.py:29
+msgid "Key not found!"
+msgstr "Klíč nenalezen!"
+
+#: hangupsbot/commands/config.py:41
+msgid "Reload bot configuration from file"
+msgstr "Znovu načte konfiguraci bota ze souboru"
+
+#: hangupsbot/commands/config.py:43
+msgid "Configuration reloaded"
+msgstr "Konfigurace načtena"
+
+#: hangupsbot/commands/conversations.py:10
+msgid "Return list of unique chat_ids from list of user names"
+msgstr ""
+
+#: hangupsbot/commands/conversations.py:18
+msgid ""
+"Create new conversation with same users as in old one except kicked users "
+"(use . for current conversation)\n"
+"       Usage: /bot conv_refresh conversation_name [kicked_user_name_1] "
+"[kicked_user_name_2] [...]"
+msgstr ""
+"Vytvoří nový Hangout se stejnými uživateli jako ve starém, kromě vykopnutých "
+"(použijte . pro aktuální Hangout)\n"
+"       Použití: /bot conv_refresh conversation_name [kicked_user_name_1] "
+"[kicked_user_name_2] [...]"
+
+#: hangupsbot/commands/conversations.py:33
+msgid ""
+"**Welcome!**\n"
+"This is new refreshed conversation. Old conversation has been terminated, "
+"but you are one of the lucky ones who survived cleansing! If you are still "
+"in old conversation, please leave it."
+msgstr ""
+"**Vítejte!**\n"
+"Toto je nový obnovený Hangout. Starý Hangout byl zrušen, "
+"ale vy jste jedním ze šťastlivců, kteří čistku přežili. Pokud jste stále "
+"ve starém Hangoutu, prosím opusťte jej."
+
+#: hangupsbot/commands/conversations.py:40
+msgid "[TERMINATED] {}"
+msgstr ""
+
+#: hangupsbot/commands/conversations.py:42
+msgid ""
+"**!!! WARNING !!!**\n"
+"This conversation has been terminated! Please leave immediately!"
+msgstr ""
+"**!!! POZOR !!!**\n"
+"Tento Hangout byl zrušen! Prosím urychleně jej opusťte!"
+
+#: hangupsbot/commands/conversations.py:50
+msgid ""
+"Create new conversation and invite users to it\n"
+"       Usage: /bot conv_create conversation_name [user_name_1] [user_name_2] "
+"[...]"
+msgstr ""
+"Vytvoří nový Hangout a pozve do něj uživatele\n"
+"       Použití: /bot conv_create conversation_name [user_name_1] "
+"[user_name_2] "
+"[...]"
+
+#: hangupsbot/commands/conversations.py:61
+msgid "Welcome!"
+msgstr "{}: Ahoj, vítej mezi nás!"
+
+#: hangupsbot/commands/conversations.py:66
+msgid ""
+"Invite users to existing conversation (use . for current conversation)\n"
+"       Usage: /bot conv_add conversation_name [user_name_1] [user_name_2] "
+"[...]"
+msgstr ""
+"Pozve uživatele do již existujícího Hangoutu (použijte . pro aktuální "
+"Hangout)\n"
+"       Použití: /bot conv_add conversation_name [user_name_1] [user_name_2] "
+"[...]"
+
+#: hangupsbot/commands/conversations.py:81
+msgid ""
+"Rename conversation (use . for current conversation)\n"
+"       Usage: /bot conv_rename conversation_name new_conversation_name"
+msgstr ""
+"Přejmenuje Hangout (použijte . pro aktuální Hangout)\n"
+"       Použití: /bot conv_rename conversation_name new_conversation_name"
+
+#: hangupsbot/commands/conversations.py:93
+msgid ""
+"Send message to conversation as bot (use . for current conversation)\n"
+"       Usage: /bot conv_send conversation_name text"
+msgstr ""
+"Odešle zprávu do Hangoutu jako bot (použijte . pro aktuální Hangout)\n"
+"       Použití: /bot conv_send conversation_name text"
+
+#: hangupsbot/commands/conversations.py:104
+msgid ""
+"Leave current (or specified) conversation\n"
+"       Usage: /bot conv_leave [conversation_name]"
+msgstr ""
+"Opustí aktuální nebo jiný specifikovaný Hangout\n"
+"       Použití: /bot conv_leave [conversation_name]"
+
+#: hangupsbot/commands/conversations.py:110
+msgid "I'll be back!"
+msgstr "I'll be back!"
+
+#: hangupsbot/commands/conversations.py:116
+msgid ""
+"List all conversations where bot is wreaking havoc\n"
+"       Usage: /bot conv_list [conversation_name]\n"
+"       Legend: c ... commands, f ... forwarding, a ... autoreplies"
+msgstr ""
+"Výpis všech aktivních Hangoutů, v kterých řádí bot\n"
+"       Použití: /bot conv_list [conversation_name]\n"
+"       Vysvětlivky: c ... commands, f ... forwarding, a ... autoreplies"
+
+#: hangupsbot/commands/conversations.py:132
+msgid ""
+"**Active conversations:**\n"
+"{}"
+msgstr ""
+"**Seznam aktivních Hangoutů:**\n"
+"{}"
+
+#: hangupsbot/commands/default.py:9
 msgid "Unknown command handler"
 msgstr "Neznámý příkaz"
 
-#: hangupsbot/commands/default.py:14
+#: hangupsbot/commands/default.py:11
 msgid "{}: Unknown command!"
 msgstr "{}: Ja ne znaju, ne ponimaju!"
 
-#: hangupsbot/commands/default.py:19
+#: hangupsbot/commands/default.py:17
 msgid ""
 "Help me, Obi-Wan Kenobi. You're my only hope.\n"
 "       Usage: /bot help [command]"
@@ -153,9 +623,23 @@ msgstr ""
 "Help me, Obi-Wan Kenobi. You're my only hope.\n"
 "       Použití: /bot help [command]"
 
-#: hangupsbot/commands/default.py:22
-msgid "Supported commands:"
-msgstr "Podporované příkazy:"
+#: hangupsbot/commands/default.py:27
+msgid ""
+"**{}:**\n"
+"{}"
+msgstr ""
+
+#: hangupsbot/commands/default.py:31
+msgid ""
+"\n"
+"\n"
+"**Supported commands:**\n"
+"{}"
+msgstr ""
+"\n"
+"\n"
+"**Podporované příkazy:**\n"
+"{}"
 
 #: hangupsbot/commands/default.py:40
 msgid "Let's play ping pong!"
@@ -170,70 +654,32 @@ msgstr ""
 "       Použití: /bot echo text"
 
 #: hangupsbot/commands/default.py:53
-msgid ""
-"List all participants in current conversation (including G+ accounts and "
-"emails)"
-msgstr "Výpis všech uživatelů v aktuálním Hangoutu (včetně G+ účtů a emailů)"
+msgid "Oh my God! They killed Kenny! You bastards!"
+msgstr "Nech bota žít!"
 
 #: hangupsbot/commands/default.py:54
-msgid "List of participants ({} total):"
-msgstr "Seznam uživatelů (celkem {}):"
+msgid "HangupsBot killed by user {} from conversation {}"
+msgstr "HangupsBot byl ukončen uživatelem {} z konverzace {}"
 
-#: hangupsbot/commands/default.py:72
-msgid ""
-"Find user by name\n"
-"       Usage: /bot user user_name"
+#: hangupsbot/commands/default.py:58
+msgid "Et tu, Brute?"
+msgstr "I ty, Brute?"
+
+#: hangupsbot/commands/jokes.py:9
+msgid "Send easter egg combo (ponies, pitchforks, bikeshed, shydino)"
 msgstr ""
-"Vyhledá uživatele podle jména\n"
-"       Použití: /bot user user_name"
 
-#: hangupsbot/commands/default.py:75
-msgid "Search results for user name \"{}\":"
-msgstr "Výsledky hledání uživatelů jménem \"{}\":"
-
-#: hangupsbot/commands/default.py:97
+#: hangupsbot/commands/jokes.py:18
 msgid ""
-"List all conversations where bot is wreaking havoc\n"
-"       Legend: c ... commands, f ... forwarding, a ... autoreplies"
-msgstr ""
-"Výpis všech aktivních Hangoutů, v kterých řádí bot\n"
-"       Vysvětlivky: c ... commands, f ... forwarding, a ... autoreplies"
-
-#: hangupsbot/commands/default.py:99
-msgid "Active conversations:"
-msgstr "Seznam aktivních Hangoutů:"
-
-#: hangupsbot/commands/default.py:114
-msgid ""
-"Rename current conversation\n"
-"       Usage: /bot rename new_conversation_name"
-msgstr ""
-"Přejmenuje aktuální Hangout\n"
-"       Použití: /bot rename new_conversation_name"
-
-#: hangupsbot/commands/default.py:121
-msgid ""
-"Leave current (or specified) conversation\n"
-"       Usage: /bot leave [conversation_name]"
-msgstr ""
-"Opustí aktuální nebo jiný specifikovaný Hangout\n"
-"       Použití: /bot leave [conversation_name]"
-
-#: hangupsbot/commands/default.py:134
-msgid "I'll be back!"
-msgstr "I'll be back!"
-
-#: hangupsbot/commands/default.py:141
-msgid ""
-"Annoy people with easter egg combo!\n"
-"       Usage: /bot easteregg easter_egg_type [count] [period]\n"
+"Annoy people with easter egg combo in current (or specified) conversation!\n"
+"       Usage: /bot easteregg easter_egg_type [count] [period] [conv_name]\n"
 "       Supported easter eggs: ponies, pitchforks, bikeshed, shydino"
 msgstr ""
-"Spustí combo velikonočních vajíček!\n"
-"       Použití: /bot easteregg easter_egg_type [count] [period]\n"
+"Spustí combo velikonočních vajíček v aktuálním nebo specifikovaném Hangoutu!\n"
+"       Použití: /bot easteregg easter_egg_type [count] [period] [conv_name]\n"
 "       Podporovaná velikonoční vajíčka: ponies, pitchforks, bikeshed, shydino"
 
-#: hangupsbot/commands/default.py:152
+#: hangupsbot/commands/jokes.py:31
 msgid ""
 "Spoof IngressBot on specified GPS coordinates\n"
 "       Usage: /bot spoof latitude,longitude [hack|fire|deploy|mod] [level] "
@@ -243,41 +689,44 @@ msgstr ""
 "       Použití: /bot spoof latitude,longitude [hack|fire|deploy|mod] [level] "
 "[count]"
 
-#: hangupsbot/commands/default.py:154 hangupsbot/handlers/membership.py:26
-msgid "!!! WARNING !!!"
-msgstr "!!! POZOR !!!"
-
-#: hangupsbot/commands/default.py:156
-msgid "Agent {} ("
-msgstr "Uživatel {} ("
-
-#: hangupsbot/commands/default.py:160
-msgid ") has been reported to Niantic for attempted spoofing!"
-msgstr ") byl právě reportován Nianticu za pokus o spoofing!"
-
-#: hangupsbot/commands/default.py:166
-msgid "Reload bot configuration from file"
-msgstr "Znovu načte konfiguraci bota ze souboru"
-
-#: hangupsbot/commands/default.py:172
-msgid "Oh my God! They killed Kenny! You bastards!"
-msgstr "Nech bota žít!"
-
-#: hangupsbot/commands/default.py:173
-msgid "HangupsBot killed by user {} from conversation {}"
-msgstr "HangupsBot byl ukončen uživatelem {} z konverzace {}"
-
-#: hangupsbot/commands/default.py:180
+#: hangupsbot/commands/jokes.py:34
 msgid ""
-"Show or change bot configuration\n"
-"       Usage: /bot config [get|set] [key] [subkey] [...] [value]"
+"**!!! WARNING !!!**\n"
+"Agent {} ({}) has been reported to Niantic for attempted spoofing!"
 msgstr ""
-"Zobrazí nebo upraví konfiguraci bota\n"
-"       Použití: /bot config [get|set] [key] [subkey] [...] [value]"
+"**!!! POZOR !!!**\n"
+"Uživatel {} ({}) byl právě reportován Nianticu za pokus o spoofing!"
 
-#: hangupsbot/commands/default.py:200
-msgid "Key not found!"
-msgstr "Klíč nenalezen!"
+#: hangupsbot/commands/users.py:8
+msgid "Return text representation of user"
+msgstr ""
+
+#: hangupsbot/commands/users.py:19
+msgid ""
+"List all participants in current (or specified) conversation\n"
+"       You can also use . for current conversation. Includes G+ accounts and "
+"emails.\n"
+"       Usage: /bot user_list [conversation_name] [user_name]"
+msgstr ""
+"Výpis všech uživatelů v aktuálním nebo specifikovaném Hangoutu\n"
+"       Použijte . pro aktuální Hangout. Výpis je včetně G+ účtů a emailů.\n"
+"       Použití: /bot user_list [conversation_name] [user_name]"
+
+#: hangupsbot/commands/users.py:27
+msgid "**List of participants in \"{}\" ({} total):**"
+msgstr "**Seznam uživatelů v \"{}\" (celkem {}):**"
+
+#: hangupsbot/commands/users.py:38
+msgid ""
+"Find users known to bot by their name\n"
+"       Usage: /bot user_find [user_name]"
+msgstr ""
+"Vyhledá uživatele podle jména\n"
+"       Použití: /bot user_find [user_name]"
+
+#: hangupsbot/commands/users.py:41
+msgid "**Search results for user name \"{}\":**"
+msgstr "**Výsledky hledání uživatelů jménem \"{}\":**"
 
 #: hangupsbot/handlers/__init__.py:25
 msgid "Conversation ID: {}"
@@ -303,27 +752,31 @@ msgstr "Časová značka: {}"
 msgid "Text: {}"
 msgstr "Text: {}"
 
-#: hangupsbot/handlers/commands.py:29
+#: hangupsbot/handlers/commands.py:30
 msgid "{}: How may I serve you?"
 msgstr "{}: Co si bude pán ráčit?"
 
-#: hangupsbot/handlers/commands.py:38
+#: hangupsbot/handlers/commands.py:40
 msgid "{}: I'm sorry, Dave. I'm afraid I can't do that."
 msgstr "{}: I'm sorry, Dave. I'm afraid I can't do that."
 
-#: hangupsbot/handlers/membership.py:24
+#: hangupsbot/handlers/membership.py:25
 msgid "{}: Welcome!"
 msgstr "{}: Ahoj, vítej mezi nás!"
 
 #: hangupsbot/handlers/membership.py:28
-msgid "{} invited user {} without authorization!"
-msgstr "{} neoprávněně přidal do tohoto Hangoutu uživatele {}!"
+msgid ""
+"**!!! WARNING !!!**\n"
+"{} invited user {} without authorization!\n"
+"\n"
+"{}: Please leave this conversation immediately!"
+msgstr ""
+"**!!! POZOR !!!**\n"
+"{} neoprávněně přidal do tohoto Hangoutu uživatele {}!\n"
+"\n"
+"{}: Opusťte prosím urychleně tento Hangout!"
 
-#: hangupsbot/handlers/membership.py:32
-msgid "{}: Please leave this conversation immediately!"
-msgstr "{}: Opusťte prosím urychleně tento Hangout!"
-
-#: hangupsbot/handlers/membership.py:37
+#: hangupsbot/handlers/membership.py:38
 msgid "{} has jilted us :-( Hasta la vista, baby!"
 msgstr "{} nám dal košem :-( Řekněte pá pá!"
 
@@ -335,68 +788,20 @@ msgstr "{} odstranil nastavené jméno konverzace"
 msgid "{} renamed the conversation to {}"
 msgstr "{} přejmenoval konverzaci na {}"
 
-#: hangupsbot/hangupsbot.py:50
-msgid "Login failed ({})"
-msgstr "Přihlášení selhalo ({})"
+#~ msgid ""
+#~ "List all participants in current conversation (including G+ accounts and "
+#~ "emails)"
+#~ msgstr ""
+#~ "Výpis všech uživatelů v aktuálním Hangoutu (včetně G+ účtů a emailů)"
 
-#: hangupsbot/hangupsbot.py:70
-msgid ""
-"Client unexpectedly disconnected:\n"
-"{}"
-msgstr ""
-"Klient byl neočekávaně odpojen od serveru:\n"
-"{}"
+#~ msgid "!!! WARNING !!!"
+#~ msgstr "!!! POZOR !!!"
 
-#: hangupsbot/hangupsbot.py:71
-msgid "Waiting {} seconds..."
-msgstr "Čekám {} sekund..."
+#~ msgid "Agent {} ("
+#~ msgstr "Uživatel {} ("
 
-#: hangupsbot/hangupsbot.py:73
-msgid "Trying to connect again (try {} of {})..."
-msgstr "Pokouším se znovu připojit (pokus {} z {})..."
+#~ msgid "{} invited user {} without authorization!"
+#~ msgstr "{} neoprávněně přidal do tohoto Hangoutu uživatele {}!"
 
-#: hangupsbot/hangupsbot.py:74
-msgid "Maximum number of retries reached! Exiting..."
-msgstr "Dosažen maximální počet pokusů o připojení! Ukončuji..."
-
-#: hangupsbot/hangupsbot.py:120
-msgid "Failed to send message!"
-msgstr "Nepodařilo se odeslat zprávu!"
-
-#: hangupsbot/hangupsbot.py:124
-msgid "Connected!"
-msgstr "Připojen!"
-
-#: hangupsbot/hangupsbot.py:135
-msgid "Conversations:"
-msgstr "Konverzace:"
-
-#: hangupsbot/hangupsbot.py:146
-msgid "Connection lost!"
-msgstr "Připojení ztraceno!"
-
-#: hangupsbot/hangupsbot.py:161
-msgid "log detailed debugging messages"
-msgstr "ukládat do logu podrobné debugovací zprávy"
-
-#: hangupsbot/hangupsbot.py:163
-msgid "log file path"
-msgstr "cesta k souboru logu"
-
-#: hangupsbot/hangupsbot.py:165
-msgid "cookie storage path"
-msgstr "cesta k souboru cookies"
-
-#: hangupsbot/hangupsbot.py:167
-msgid "config storage path"
-msgstr "cesta ke konfiguračnímu souboru"
-
-#: hangupsbot/hangupsbot.py:177
-msgid "Failed to create directory: {}"
-msgstr "Nepodařilo se vytvořit adresář: {}"
-
-#: hangupsbot/hangupsbot.py:185
-msgid "Failed to copy default config file: {}"
-msgstr "Nepodařilo se zkopírovat výchozí konfigurační soubor: {}"
-
-
+#~ msgid "{}: Please leave this conversation immediately!"
+#~ msgstr "{}: Opusťte prosím urychleně tento Hangout!"

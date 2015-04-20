@@ -18,7 +18,7 @@ def user_to_text(user):
 def user_list(bot, event, conv_name='', user_name='', *args):
     """List all participants in current (or specified) conversation
        You can also use . for current conversation. Includes G+ accounts and emails.
-       Usage: /bot users_list [conversation_name] [user_name]"""
+       Usage: /bot user_list [conversation_name] [user_name]"""
     conv_name = strip_quotes(conv_name)
     user_name = strip_quotes(user_name)
     convs = [event.conv] if not conv_name or conv_name == '.' else bot.find_conversations(conv_name)
@@ -36,7 +36,7 @@ def user_list(bot, event, conv_name='', user_name='', *args):
 @command.register(admin=True)
 def user_find(bot, event, user_name='', *args):
     """Find users known to bot by their name
-       Usage: /bot users_find [user_name]"""
+       Usage: /bot user_find [user_name]"""
     user_name = strip_quotes(user_name)
     text = [_('**Search results for user name "{}":**').format(user_name)]
     for u in bot.find_users(user_name):
