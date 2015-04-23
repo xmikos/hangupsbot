@@ -1,4 +1,4 @@
-import shlex
+import re, shlex
 
 import hangups
 
@@ -7,14 +7,34 @@ from hangupsbot.handlers import handler, StopEventHandling
 from hangupsbot.commands import command
 
 
-bot_command = "/bot"
+default_bot_alias = '/bot'
+
+
+def find_bot_alias(aliases_list, text):
+    """Return True if text starts with bot alias"""
+    command = text.split()[0].lower()
+    for alias in aliases_list:
+        if alias.lower().startswith('regex:') and re.search(alias[6:], command, re.IGNORECASE):
+            return True
+        elif command == alias.lower():
+            return True
+    return False
 
 
 @handler.register(priority=5, event=hangups.ChatMessageEvent)
 def handle_command(bot, event):
     """Handle command messages"""
-    # Test if message starts with bot command keyword
-    if not event.text or event.text.split()[0].lower() != bot_command:
+    # Test if message is not empty
+    if not event.text:
+        return
+
+    # Get list of bot aliases
+    aliases_list = bot.get_config_suboption(event.conv_id, 'commands_aliases')
+    if not aliases_list:
+        aliases_list = [default_bot_alias]
+
+    # Test if message starts with bot alias
+    if not find_bot_alias(aliases_list, event.text):
         return
 
     # Test if command handling is enabled
