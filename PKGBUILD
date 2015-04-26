@@ -17,6 +17,7 @@ build() {
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
+  sed -i 's/^.*asyncio.*$//' setup.py
   python setup.py install --root="$pkgdir"
 }
 
