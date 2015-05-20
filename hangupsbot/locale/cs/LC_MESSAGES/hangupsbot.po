@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2015-04-20 01:43+CEST\n"
-"PO-Revision-Date: 2015-04-20 02:26+0200\n"
+"POT-Creation-Date: 2015-05-20 13:55+CEST\n"
+"PO-Revision-Date: 2015-05-20 14:00+0200\n"
 "Last-Translator: Michal Krenek (Mikos) <m.krenek@gmail.com>\n"
 "Language-Team: Czech <>\n"
 "Language: cs\n"
@@ -407,11 +407,11 @@ msgstr ""
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: chyba: %(message)s\n"
 
-#: hangupsbot/__main__.py:60
+#: hangupsbot/__main__.py:61
 msgid "Login failed ({})"
 msgstr "Přihlášení selhalo ({})"
 
-#: hangupsbot/__main__.py:80
+#: hangupsbot/__main__.py:81
 msgid ""
 "Client unexpectedly disconnected:\n"
 "{}"
@@ -419,59 +419,59 @@ msgstr ""
 "Klient byl neočekávaně odpojen od serveru:\n"
 "{}"
 
-#: hangupsbot/__main__.py:81
+#: hangupsbot/__main__.py:82
 msgid "Waiting {} seconds..."
 msgstr "Čekám {} sekund..."
 
-#: hangupsbot/__main__.py:83
+#: hangupsbot/__main__.py:84
 msgid "Trying to connect again (try {} of {})..."
 msgstr "Pokouším se znovu připojit (pokus {} z {})..."
 
-#: hangupsbot/__main__.py:84
+#: hangupsbot/__main__.py:85
 msgid "Maximum number of retries reached! Exiting..."
 msgstr "Dosažen maximální počet pokusů o připojení! Ukončuji..."
 
-#: hangupsbot/__main__.py:182
+#: hangupsbot/__main__.py:183
 msgid "Failed to send message!"
 msgstr "Nepodařilo se odeslat zprávu!"
 
-#: hangupsbot/__main__.py:187
+#: hangupsbot/__main__.py:188
 msgid "Connected!"
 msgstr "Připojen!"
 
-#: hangupsbot/__main__.py:200
+#: hangupsbot/__main__.py:202
 msgid "Conversations:"
 msgstr "Konverzace:"
 
-#: hangupsbot/__main__.py:213
+#: hangupsbot/__main__.py:215
 msgid "Connection lost!"
 msgstr "Připojení ztraceno!"
 
-#: hangupsbot/__main__.py:228
+#: hangupsbot/__main__.py:230
 msgid "log detailed debugging messages"
 msgstr "ukládat do logu podrobné debugovací zprávy"
 
-#: hangupsbot/__main__.py:230
+#: hangupsbot/__main__.py:232
 msgid "log file path"
 msgstr "cesta k souboru logu"
 
-#: hangupsbot/__main__.py:232
-msgid "cookie storage path"
-msgstr "cesta k souboru cookies"
-
 #: hangupsbot/__main__.py:234
+msgid "OAuth refresh token storage path"
+msgstr "cesta k souboru OAuth refresh token"
+
+#: hangupsbot/__main__.py:236
 msgid "config storage path"
 msgstr "cesta ke konfiguračnímu souboru"
 
-#: hangupsbot/__main__.py:236
+#: hangupsbot/__main__.py:238
 msgid "show program's version number and exit"
 msgstr "vypíše verzi programu a skončí"
 
-#: hangupsbot/__main__.py:246
+#: hangupsbot/__main__.py:248
 msgid "Failed to create directory: {}"
 msgstr "Nepodařilo se vytvořit adresář: {}"
 
-#: hangupsbot/__main__.py:254
+#: hangupsbot/__main__.py:256
 msgid "Failed to copy default config file: {}"
 msgstr "Nepodařilo se zkopírovat výchozí konfigurační soubor: {}"
 
@@ -519,9 +519,9 @@ msgid ""
 "in old conversation, please leave it."
 msgstr ""
 "**Vítejte!**\n"
-"Toto je nový obnovený Hangout. Starý Hangout byl zrušen, "
-"ale vy jste jedním ze šťastlivců, kteří čistku přežili. Pokud jste stále "
-"ve starém Hangoutu, prosím opusťte jej."
+"Toto je nový obnovený Hangout. Starý Hangout byl zrušen, ale vy jste jedním "
+"ze šťastlivců, kteří čistku přežili. Pokud jste stále ve starém Hangoutu, "
+"prosím opusťte jej."
 
 #: hangupsbot/commands/conversations.py:40
 msgid "[TERMINATED] {}"
@@ -543,8 +543,7 @@ msgid ""
 msgstr ""
 "Vytvoří nový Hangout a pozve do něj uživatele\n"
 "       Použití: /bot conv_create conversation_name [user_name_1] "
-"[user_name_2] "
-"[...]"
+"[user_name_2] [...]"
 
 #: hangupsbot/commands/conversations.py:61
 msgid "Welcome!"
@@ -675,7 +674,8 @@ msgid ""
 "       Usage: /bot easteregg easter_egg_type [count] [period] [conv_name]\n"
 "       Supported easter eggs: ponies, pitchforks, bikeshed, shydino"
 msgstr ""
-"Spustí combo velikonočních vajíček v aktuálním nebo specifikovaném Hangoutu!\n"
+"Spustí combo velikonočních vajíček v aktuálním nebo specifikovaném "
+"Hangoutu!\n"
 "       Použití: /bot easteregg easter_egg_type [count] [period] [conv_name]\n"
 "       Podporovaná velikonoční vajíčka: ponies, pitchforks, bikeshed, shydino"
 
@@ -752,11 +752,11 @@ msgstr "Časová značka: {}"
 msgid "Text: {}"
 msgstr "Text: {}"
 
-#: hangupsbot/handlers/commands.py:30
+#: hangupsbot/handlers/commands.py:50
 msgid "{}: How may I serve you?"
 msgstr "{}: Co si bude pán ráčit?"
 
-#: hangupsbot/handlers/commands.py:40
+#: hangupsbot/handlers/commands.py:60
 msgid "{}: I'm sorry, Dave. I'm afraid I can't do that."
 msgstr "{}: I'm sorry, Dave. I'm afraid I can't do that."
 
