@@ -65,7 +65,7 @@ class HangupsBot:
         """Connect to Hangouts and run bot"""
         cookies = self.login(self._refresh_token_path)
         if cookies:
-            while self.retry_ < self._max_retries:
+            while self._retry < self._max_retries:
                 try:
                     # Create Hangups client
                     self._client = hangups.Client(cookies)
