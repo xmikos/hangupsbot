@@ -28,9 +28,9 @@ LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 class HangupsBot:
     """Hangouts bot listening on all conversations"""
-    def __init__(self, cookies_path, config_path, max_retries=5):
+    def __init__(self, refresh_token_path, config_path, max_retries=5):
         self._client = None
-        self._cookies_path = cookies_path
+        self._refresh_token_path = refresh_token_path
         self._max_retries = max_retries
 
         # These are populated by on_connect when it's called.
@@ -49,12 +49,12 @@ class HangupsBot:
         except NotImplementedError:
             pass
 
-    def login(self, cookies_path):
+    def login(self, refresh_token_path):
         """Login to Google account"""
-        # Authenticate Google user and save auth cookies
-        # (or load already saved cookies)
+        # Authenticate Google user with OAuth token and save it
+        # (or load already saved OAuth token)
         try:
-            cookies = hangups.auth.get_auth_stdin(cookies_path)
+            cookies = hangups.auth.get_auth_stdin(refresh_token_path)
             return cookies
         except hangups.GoogleAuthError as e:
             print(_('Login failed ({})').format(e))
@@ -62,7 +62,7 @@ class HangupsBot:
 
     def run(self):
         """Connect to Hangouts and run bot"""
-        cookies = self.login(self._cookies_path)
+        cookies = self.login(self._refresh_token_path)
         if cookies:
             for retry in range(self._max_retries):
                 try:
@@ -218,7 +218,7 @@ def main():
     # Build default paths for files.
     dirs = appdirs.AppDirs('hangupsbot', 'hangupsbot')
     default_log_path = os.path.join(dirs.user_data_dir, 'hangupsbot.log')
-    default_cookies_path = os.path.join(dirs.user_data_dir, 'cookies.json')
+    default_token_path = os.path.join(dirs.user_data_dir, 'refresh_token.txt')
     default_config_path = os.path.join(dirs.user_data_dir, 'config.json')
 
     # Configure argument parser
@@ -228,8 +228,8 @@ def main():
                         help=_('log detailed debugging messages'))
     parser.add_argument('--log', default=default_log_path,
                         help=_('log file path'))
-    parser.add_argument('--cookies', default=default_cookies_path,
-                        help=_('cookie storage path'))
+    parser.add_argument('--token', default=default_token_path,
+                        help=_('OAuth refresh token storage path'))
     parser.add_argument('--config', default=default_config_path,
                         help=_('config storage path'))
     parser.add_argument('--version', action='version', version='%(prog)s {}'.format(__version__),
@@ -237,7 +237,7 @@ def main():
     args = parser.parse_args()
 
     # Create all necessary directories.
-    for path in [args.log, args.cookies, args.config]:
+    for path in [args.log, args.token, args.config]:
         directory = os.path.dirname(path)
         if directory and not os.path.isdir(directory):
             try:
@@ -260,7 +260,7 @@ def main():
     logging.getLogger('asyncio').setLevel(logging.WARNING)
 
     # Start Hangups bot
-    bot = HangupsBot(args.cookies, args.config)
+    bot = HangupsBot(args.token, args.config)
     bot.run()
 
 
