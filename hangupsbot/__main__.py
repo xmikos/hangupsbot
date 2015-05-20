@@ -32,6 +32,7 @@ class HangupsBot:
         self._client = None
         self._refresh_token_path = refresh_token_path
         self._max_retries = max_retries
+        self._retry = 0
 
         # These are populated by on_connect when it's called.
         self._conv_list = None        # hangups.ConversationList
@@ -64,7 +65,7 @@ class HangupsBot:
         """Connect to Hangouts and run bot"""
         cookies = self.login(self._refresh_token_path)
         if cookies:
-            for retry in range(self._max_retries):
+            while self.retry_ < self._max_retries:
                 try:
                     # Create Hangups client
                     self._client = hangups.Client(cookies)
@@ -78,9 +79,9 @@ class HangupsBot:
                     sys.exit(0)
                 except Exception as e:
                     print(_('Client unexpectedly disconnected:\n{}').format(e))
-                    print(_('Waiting {} seconds...').format(5 + retry * 5))
-                    time.sleep(5 + retry * 5)
-                    print(_('Trying to connect again (try {} of {})...').format(retry + 1, self._max_retries))
+                    print(_('Waiting {} seconds...').format(5 + self._retry * 5))
+                    time.sleep(5 + self._retry * 5)
+                    print(_('Trying to connect again (try {} of {})...').format(self._retry + 1, self._max_retries))
             print(_('Maximum number of retries reached! Exiting...'))
         sys.exit(1)
 
@@ -185,6 +186,7 @@ class HangupsBot:
     def _on_connect(self, initial_data):
         """Handle connecting for the first time"""
         print(_('Connected!'))
+        self._retry = 0
         self._user_list = yield from hangups.build_user_list(
             self._client,
             initial_data
