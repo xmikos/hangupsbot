@@ -8,7 +8,6 @@ Requirements
 
 - Python >= 3.3
 - hangups (https://github.com/tdryer/hangups)
-- ReParser (https://github.com/xmikos/reparser)
 - appdirs (https://github.com/ActiveState/appdirs)
 - asyncio (https://pypi.python.org/pypi/asyncio) for Python < 3.4
 
@@ -22,27 +21,30 @@ You can configure basic settings in ``config.json`` file. This file will be
 copied to user data directory (e.g. ``~/.local/share/hangupsbot/`` on Linux)
 after first start of HangupsBot.
 
-The first time you start HangupsBot, you will be prompted to log into your
-Google account. Your credentials will only be sent to Google, and only
-session cookies will be stored locally. If you have trouble logging in,
-try logging in through a browser first.
+The first time you start HangupsBot, you will be prompted to open a link
+in your web browser where you log into your Google account. After logging in
+and clicking on "SIGN IN", you should see authorization code. Copy this code
+to clipboard and paste it into HangupsBot to complete the process. Your
+credentials will only be sent to Google, and only OAuth 2 refresh token
+will be stored locally.
 
 Help
 ----
 ::
 
-    usage: hangupsbot [-h] [-d] [--log LOG] [--cookies COOKIES] [--config CONFIG] [--version]
-
+    usage: hangupsbot [-h] [-d] [--log LOG] [--token TOKEN] [--config CONFIG]
+                      [--version]
+    
     optional arguments:
-      -h, --help         show this help message and exit
-      -d, --debug        log detailed debugging messages (default: False)
-      --log LOG          log file path (default:
-                         ~/.local/share/hangupsbot/hangupsbot.log)
-      --cookies COOKIES  cookie storage path (default:
-                         ~/.local/share/hangupsbot/cookies.json)
-      --config CONFIG    config storage path (default:
-                         ~/.local/share/hangupsbot/config.json)
-      --version          show program's version number and exit
+      -h, --help       show this help message and exit
+      -d, --debug      log detailed debugging messages (default: False)
+      --log LOG        log file path (default:
+                       ~/.local/share/hangupsbot/hangupsbot.log)
+      --token TOKEN    OAuth refresh token storage path (default:
+                       ~/.local/share/hangupsbot/refresh_token.txt)
+      --config CONFIG  config storage path (default:
+                       ~/.local/share/hangupsbot/config.json)
+      --version        show program's version number and exit
 
 Features (event handlers)
 -------------------------
