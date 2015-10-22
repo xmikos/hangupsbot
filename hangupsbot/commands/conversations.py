@@ -1,5 +1,7 @@
 import itertools
 
+from hangups import hangouts_pb2
+from hangups.hangouts_pb2 import InviteeID
 from hangups.ui.utils import get_conv_name
 
 from hangupsbot.utils import strip_quotes, text_to_segments
@@ -13,6 +15,11 @@ def get_unique_users(bot, user_list):
     return unique_users
 
 
+def get_unique_user_objects(bot, user_list):
+    """Return list of unique user objects from list of user names"""
+    return itertools.chain.from_iterable(bot.find_users(strip_quotes(u)) for u in user_list)
+
+
 @command.register(admin=True)
 def conv_refresh(bot, event, conv_name, *args):
     """Create new conversation with same users as in old one except kicked users (use . for current conversation)
@@ -22,27 +29,40 @@ def conv_refresh(bot, event, conv_name, *args):
     kicked_chat_ids = get_unique_users(bot, args)
 
     for c in convs:
-        old_chat_ids = {u.id_.chat_id for u in bot.find_users('', conv=c)}
-        new_chat_ids = list(old_chat_ids - set(kicked_chat_ids))
-
+        new_chat_ids = {u for u in bot.find_users('', conv=c) if u.id_.chat_id not in set(kicked_chat_ids)}
+        invitee_ids = [InviteeID(
+            gaia_id=u.id_.gaia_id,
+            fallback_name=u.full_name
+        ) for u in new_chat_ids]
         # Create new conversation
-        res = yield from bot._client.createconversation(new_chat_ids, force_group=True)
-        conv_id = res['conversation']['id']['id']
-        yield from bot._client.setchatname(conv_id, c.name)
-        yield from bot._conv_list.get(conv_id).send_message(
-            text_to_segments(_('**Welcome!**\n'
-                               'This is new refreshed conversation. Old conversation has been '
-                               'terminated, but you are one of the lucky ones who survived cleansing! '
-                               'If you are still in old conversation, please leave it.'))
+
+        request = hangouts_pb2.CreateConversationRequest(
+            request_header=bot._client.get_request_header(),
+            type=hangouts_pb2.CONVERSATION_TYPE_GROUP,
+            client_generated_id=bot._client.get_client_generated_id(),
+            name=c.name,
+            invitee_id=invitee_ids
+        )
+        res = yield from bot._client.create_conversation(request)
+        conv_id = res.conversation.conversation_id.id
+        bot._conv_list.add_conversation(res.conversation)
+        conv = bot._conv_list.get(conv_id)
+
+        yield from conv.rename(c.name)
+        yield from conv.send_message(
+            text_to_segments(('**Welcome!**\n'
+                              'This is the new refreshed conversation. Old conversation has been '
+                              'terminated, but you are one of the lucky ones who survived cleansing! '
+                              'If you are still in old conversation, please leave it.'))
         )
 
         # Destroy old one and leave it
-        yield from bot._client.setchatname(c.id_, _('[TERMINATED] {}').format(c.name))
+        yield from c.rename(('[TERMINATED] {}').format(c.name))
         yield from c.send_message(
-            text_to_segments(_('**!!! WARNING !!!**\n'
-                               'This conversation has been terminated! Please leave immediately!'))
+            text_to_segments(('**!!! WARNING !!!**\n'
+                              'This conversation has been terminated! Please leave immediately!'))
         )
-        yield from bot._conv_list.leave_conversation(c.id_)
+        yield from c.leave()
 
 
 @command.register(admin=True)
@@ -50,15 +70,25 @@ def conv_create(bot, event, conv_name, *args):
     """Create new conversation and invite users to it
        Usage: /bot conv_create conversation_name [user_name_1] [user_name_2] [...]"""
     conv_name = strip_quotes(conv_name)
-    chat_id_list = get_unique_users(bot, args)
-    if not chat_id_list:
+    unique_user_objects = get_unique_user_objects(bot, args)
+    if not unique_user_objects:
         yield from command.unknown_command(bot, event)
         return
-
-    res = yield from bot._client.createconversation(chat_id_list, force_group=True)
-    conv_id = res['conversation']['id']['id']
-    yield from bot._client.setchatname(conv_id, conv_name)
-    yield from bot._conv_list.get(conv_id).send_message(text_to_segments(_('Welcome!')))
+    invitee_ids = [InviteeID(
+        gaia_id=u.id_.gaia_id,
+        fallback_name=u.full_name
+    ) for u in unique_user_objects]
+    request = hangouts_pb2.CreateConversationRequest(
+        request_header=bot._client.get_request_header(),
+        type=hangouts_pb2.CONVERSATION_TYPE_GROUP,
+        client_generated_id=bot._client.get_client_generated_id(),
+        name=conv_name,
+        invitee_id=invitee_ids
+    )
+    res = yield from bot._client.create_conversation(request)
+    conv = bot._conv_list.add_conversation(res.conversation)
+    yield from conv.rename(conv_name)
+    yield from conv.send_message(text_to_segments(('Welcome!')))
 
 
 @command.register(admin=True)
@@ -66,14 +96,23 @@ def conv_add(bot, event, conv_name, *args):
     """Invite users to existing conversation (use . for current conversation)
        Usage: /bot conv_add conversation_name [user_name_1] [user_name_2] [...]"""
     conv_name = strip_quotes(conv_name)
-    chat_id_list = get_unique_users(bot, args)
-    if not chat_id_list:
+    unique_user_objects = get_unique_user_objects(bot, args)
+    if not unique_user_objects:
         yield from command.unknown_command(bot, event)
         return
-
+    invitee_ids = [InviteeID(
+        gaia_id=u.id_.gaia_id,
+        fallback_name=u.full_name
+    ) for u in unique_user_objects]
     convs = [event.conv] if conv_name == '.' else bot.find_conversations(conv_name)
     for c in convs:
-        yield from bot._client.adduser(c.id_, chat_id_list)
+        req = hangouts_pb2.AddUserRequest(
+            request_header=bot._client.get_request_header(),
+            invitee_id=invitee_ids,
+            event_request_header=c._get_event_request_header()
+        )
+        res = yield from bot._client.add_user(req)
+        c.add_event(res.created_event)
 
 
 @command.register(admin=True)
@@ -85,7 +124,7 @@ def conv_rename(bot, event, conv_name, *args):
 
     convs = [event.conv] if conv_name == '.' else bot.find_conversations(conv_name)
     for c in convs:
-        yield from bot._client.setchatname(c.id_, new_conv_name)
+        yield from c.rename(new_conv_name)
 
 
 @command.register(admin=True)
