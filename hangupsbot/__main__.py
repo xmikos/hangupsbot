@@ -158,7 +158,7 @@ class HangupsBot:
         user_name = user_name.strip()
         user_name_lower = user_name.lower()
         if user_name_lower.startswith("id:"):
-            return [self._user_list.get(user_name[3:])]
+            return [self._user_list.get_user(user_name[3:])]
 
         users = [u for u in self.list_users(conv=conv)
                  if user_name_lower in u.full_name.lower()]
