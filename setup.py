@@ -25,7 +25,7 @@ setup(
         ],
     },
     install_requires=[
-        "hangups>=0.2.8",
+        "hangups>=0.3.0",
         "appdirs",
         "asyncio"  # Only needed for backward compatibility with Python 3.3
     ],
@@ -38,6 +38,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
         "Topic :: Communications :: Chat"
     ]
 )

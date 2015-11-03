@@ -17,7 +17,7 @@ def handle_membership_change(bot, event):
     names = ', '.join([user.full_name for user in event_users])
 
     # JOIN
-    if event.conv_event.type_ == hangups.MembershipChangeType.JOIN:
+    if event.conv_event.type_ == hangups.MEMBERSHIP_CHANGE_TYPE_JOIN:
         # Test if user who added new participants is admin
         admins_list = bot.get_config_suboption(event.conv_id, 'admins')
         if event.user_id.chat_id in admins_list:
