@@ -147,7 +147,7 @@ def conv_leave(bot, event, conv_name='', *args):
     convs = [event.conv] if not conv_name or conv_name == '.' else bot.find_conversations(conv_name)
     for c in convs:
         yield from c.send_message(text_to_segments(_('I\'ll be back!')))
-        yield from bot._conv_list.leave_conversation(c.id_)
+        yield from c.leave()
 
 
 @command.register(admin=True)

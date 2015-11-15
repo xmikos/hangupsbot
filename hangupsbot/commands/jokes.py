@@ -1,5 +1,7 @@
 import asyncio, random
 
+from hangups import hangouts_pb2
+
 from hangupsbot.utils import strip_quotes, text_to_segments
 from hangupsbot.commands import command
 
@@ -8,7 +10,12 @@ from hangupsbot.commands import command
 def easteregg_combo(client, conv_id, easteregg, eggcount=1, period=0.5):
     """Send easter egg combo (ponies, pitchforks, bikeshed, shydino)"""
     for i in range(eggcount):
-        yield from client.sendeasteregg(conv_id, easteregg)
+        req = hangouts_pb2.EasterEggRequest(
+            request_header=client.get_request_header(),
+            conversation_id=hangouts_pb2.ConversationId(id=conv_id),
+            easter_egg=hangouts_pb2.EasterEgg(message=easteregg)
+        )
+        res = yield from client.easter_egg(req)
         if eggcount > 1:
             yield from asyncio.sleep(period + random.uniform(-0.1, 0.1))
 
