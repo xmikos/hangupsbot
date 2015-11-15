@@ -5,7 +5,7 @@ import sys
 from setuptools import setup
 from hangupsbot.version import __version__
 
-install_requires=[
+install_requires = [
     "hangups>=0.3.0",
     "appdirs"
 ]
