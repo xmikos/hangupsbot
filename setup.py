@@ -1,7 +1,17 @@
 #!/usr/bin/env python
 
+import sys
+
 from setuptools import setup
 from hangupsbot.version import __version__
+
+install_requires=[
+    "hangups>=0.3.0",
+    "appdirs"
+]
+
+if sys.version_info < (3, 4):
+    install_requires.append("asyncio")
 
 setup(
     name="HangupsBot",
@@ -24,11 +34,7 @@ setup(
             "hangupsbot=hangupsbot.__main__:main"
         ],
     },
-    install_requires=[
-        "hangups>=0.3.0",
-        "appdirs",
-        "asyncio"  # Only needed for backward compatibility with Python 3.3
-    ],
+    install_requires=install_requires,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
